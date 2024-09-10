@@ -1,0 +1,14 @@
+.dash-layout {
+  height: 100%;
+}
+
+.dash-btn {
+  height: 10%;
+}
+
+.dash-container {
+  height: 90%;
+  display: flex;
+  justify-content: space-around;
+  align-content: center;
+}
