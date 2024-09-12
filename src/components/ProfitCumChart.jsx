@@ -3,14 +3,13 @@ import { cumulativeSum, filterObjectByDateRange } from "../utils/helper";
 import dayjs from "dayjs";
 import { useRef, useState } from "react";
 import { Button } from "antd";
+import { useDataContext } from "../context/DataContext";
 
-function ProfitCumChart({ data }) {
-  const [chartData, setChartData] = useState(() => data);
+function ProfitCumChart() {
+  const { data, chartData, setChartData } = useDataContext();
 
   const [chartLayout, setChartLayout] = useState(null);
 
-  console.log("data", data);
-  console.log("chartData", chartData);
   const layoutRef = useRef({
     width: 800,
     height: 400,

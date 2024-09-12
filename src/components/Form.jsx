@@ -2,7 +2,8 @@ import { Form as AndForm, Button, DatePicker, Input, Spin } from "antd";
 import { useDataContext } from "../context/DataContext";
 
 function Form() {
-  const { requestData, setData, isLoading, setIsloading } = useDataContext();
+  const { requestData, setData, setChartData, isLoading, setIsloading } =
+    useDataContext();
 
   const onFinish = async (values) => {
     console.log("Success:", values);
@@ -12,6 +13,7 @@ function Form() {
     setIsloading(true);
     const newData = await requestData();
     setData(newData);
+    setChartData(newData);
     setIsloading(false);
   };
 

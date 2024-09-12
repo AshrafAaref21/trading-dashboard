@@ -4,15 +4,20 @@ import "./dashboard.css";
 import TabbedCharts from "./TabbedCharts";
 import DropdownWithTable from "./DropDownWithTable";
 import { useDataContext } from "../context/DataContext";
+import ScrollableTable from "./ScrollabeTable";
+import StatisticsCard from "./StatisticsCard";
 
 function Dashboard() {
-  const { data, setData } = useDataContext();
-  console.log("context", data);
+  const { setData } = useDataContext();
   return (
     <div className="dash-layout">
       <div className="dash-container">
         <TabbedCharts />
-        <DropdownWithTable />
+        {/* <DropdownWithTable /> */}
+        <div style={{ marginTop: "1rem" }}>
+          <StatisticsCard />
+          <ScrollableTable />
+        </div>
       </div>
       <Button
         className="dash-btn"

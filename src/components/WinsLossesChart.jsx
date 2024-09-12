@@ -1,6 +1,8 @@
 import Plot from "react-plotly.js";
+import { useDataContext } from "../context/DataContext";
 
-function WinsLossesChart({ data }) {
+function WinsLossesChart() {
+  const { data } = useDataContext();
   // Define the trace renaming as per your logic
   const newNames = { mwh_total: "# Economics", win_count: "# Wins" };
   if (!data.date) return;

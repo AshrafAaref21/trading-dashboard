@@ -6,11 +6,20 @@ const DataContext = createContext(null);
 export function DataServiceProvider({ children }) {
   const requestData = postData;
   const [data, setData] = useState({});
+  const [chartData, setChartData] = useState({});
   const [isLoading, setIsloading] = useState(false);
 
   return (
     <DataContext.Provider
-      value={{ requestData, data, setData, isLoading, setIsloading }}
+      value={{
+        requestData,
+        data,
+        setData,
+        chartData,
+        setChartData,
+        isLoading,
+        setIsloading,
+      }}
     >
       {children}
     </DataContext.Provider>
