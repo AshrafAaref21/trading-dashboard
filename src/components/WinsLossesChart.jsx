@@ -1,33 +1,13 @@
 import Plot from "react-plotly.js";
 import { useDataContext } from "../context/DataContext";
+import { useRelayout } from "../hooks/useRelayout";
+import { Button } from "antd";
 
 function WinsLossesChart() {
-  const { data } = useDataContext();
-  // Define the trace renaming as per your logic
-  const newNames = { mwh_total: "# Economics", win_count: "# Wins" };
-  if (!data.date) return;
-  // Create the transformed data for Plotly
-  const transformedData = [
-    {
-      x: data.date, // X-axis data (dates)
-      y: data.mwh_total, // Y-axis data for "mwh_total"
-      name: newNames["mwh_total"], // Renamed trace
-      mode: "lines",
-      // line: { color: "blue" }, // Optional: line color for distinction
-    },
-    {
-      x: data.date, // X-axis data (dates)
-      y: data.win_count, // Y-axis data for "win_count"
-      name: newNames["win_count"], // Renamed trace
-      mode: "lines",
-      // line: { color: "green" }, // Optional: different line color
-    },
-  ];
-
-  return (
-    <Plot
-      data={transformedData}
-      layout={{
+  const { data, chartData, setChartData } = useDataContext();
+  const { layoutRef, onChangeLayout, handleReset, handleRelayout } =
+    useRelayout(
+      {
         xaxis: {
           title: "Date",
           // tickformat: "%Y-%m-%d", // Format ticks as YYYY-MM-DD
@@ -37,12 +17,61 @@ function WinsLossesChart() {
         },
         showlegend: true, // Show the legend for renamed traces
         legend: { x: -0.2, y: 1.5 }, // Position the legend
-        width: 800,
+        width: 900,
         height: 400,
-      }}
-      useResizeHandler={true}
-      style={{ width: "100%", height: "100%" }}
-    />
+      },
+      data,
+      setChartData
+    );
+  const transformedData = [
+    {
+      x: chartData.date,
+      y: chartData.mwh_total,
+      name: "# Economics",
+      mode: "lines",
+    },
+    {
+      x: chartData.date,
+      y: chartData.win_count,
+      name: "# Wins",
+      mode: "lines",
+    },
+  ];
+
+  return (
+    <>
+      <div style={{ marginTop: "0", marginBottom: "-2.6rem" }}>
+        <Button
+          size="large"
+          shape="circle"
+          type="primary"
+          style={{ padding: "6px", zIndex: "9999" }}
+          onClick={handleRelayout}
+        >
+          Apply
+        </Button>
+        <Button
+          style={{
+            marginLeft: "1.1rem",
+            zIndex: "9999",
+            padding: "6px",
+          }}
+          danger
+          size="large"
+          shape="circle"
+          onClick={handleReset}
+        >
+          Reset
+        </Button>
+      </div>
+      <Plot
+        data={transformedData}
+        layout={layoutRef.current}
+        style={{ width: "100%", height: "100%" }}
+        useResizeHandler={true}
+        onRelayout={onChangeLayout}
+      />
+    </>
   );
 }
 

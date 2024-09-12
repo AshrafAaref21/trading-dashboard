@@ -35,11 +35,11 @@ const ScrollableTable = () => {
       .map((row) => columns.map((col) => row[col.dataIndex]).join(","))
       .join("\n"); // Convert each row into a CSV row
 
-    const csvContent = `data:text/csv;charset=utf-8,${headers}${rows}`; // Combine headers and rows
+    const csvContent = `data:text/csv;charset=utf-8,${headers}${rows}`;
     const encodedUri = encodeURI(csvContent);
     const link = document.createElement("a");
     link.setAttribute("href", encodedUri);
-    link.setAttribute("download", "table_data.csv"); // Filename
+    link.setAttribute("download", "seer.csv");
     document.body.appendChild(link); // Append the link to the DOM
     link.click(); // Programmatically click the link
     document.body.removeChild(link); // Remove the link from the DOM
@@ -47,21 +47,24 @@ const ScrollableTable = () => {
 
   return (
     <div style={{ marginTop: "1.5rem" }}>
-      <Table
-        style={{ width: "500px", fontSize: "12px" }}
-        columns={columns}
-        dataSource={dataSource}
-        pagination={false} // Disable pagination for simplicity
-        scroll={{ x: 500, y: 200 }} // Make the table scrollable
-        bordered
-      />
+      <div className="custom-table-container">
+        <Table
+          style={{ width: "500px", fontSize: "12px" }}
+          columns={columns}
+          dataSource={dataSource}
+          pagination={false} // Disable pagination for simplicity
+          scroll={{ x: 500, y: 222 }} // Make the table scrollable
+          bordered
+        />
+      </div>
       <Button
         type="primary"
         icon={<DownloadOutlined />}
         onClick={downloadCSV}
         title="Download as csv"
         shape="round"
-        style={{ marginTop: "1rem" }}
+        size="large"
+        style={{ marginTop: "1.2rem" }}
       >
         Download
       </Button>

@@ -15,7 +15,6 @@ export function filterObjectByDateRange(data, startDate, endDate) {
   const end = dayjs(endDate);
 
   const newObj = {};
-  console.log("dates", startDate, endDate);
 
   if (data) {
     Object.keys(data).map((key) => {

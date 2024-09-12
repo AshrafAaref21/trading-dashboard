@@ -8,6 +8,7 @@ export function DataServiceProvider({ children }) {
   const [data, setData] = useState({});
   const [chartData, setChartData] = useState({});
   const [isLoading, setIsloading] = useState(false);
+  const [isFilterEnabled, setIsFilterEnabled] = useState(false);
 
   return (
     <DataContext.Provider
@@ -19,6 +20,8 @@ export function DataServiceProvider({ children }) {
         setChartData,
         isLoading,
         setIsloading,
+        isFilterEnabled,
+        setIsFilterEnabled,
       }}
     >
       {children}

@@ -60,3 +60,31 @@ h6 {
 #__next {
   isolation: isolate;
 }
+
+/* ant design table scrollbar styling */
+
+/* Webkit Browsers (Chrome, Safari) */
+.ant-table-body::-webkit-scrollbar {
+  width: 12px; /* Scrollbar width */
+}
+
+.ant-table-body::-webkit-scrollbar-track {
+  background: #f1f1f1; /* Track background color */
+}
+
+.ant-table-body::-webkit-scrollbar-thumb {
+  background: #888; /* Thumb color */
+  border-radius: 6px; /* Round corners */
+}
+
+.ant-table-body::-webkit-scrollbar-thumb:hover {
+  background: #555; /* Thumb color on hover */
+}
+
+/* Firefox */
+.ant-table-body {
+  scrollbar-width: thin; /* Thin scrollbar */
+  scrollbar-color: #888 #f1f1f1; /* Thumb and track colors */
+}
+
+/* end of ant design table scrollbar styling */
