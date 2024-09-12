@@ -1,4 +1,12 @@
 import axios from "axios";
+import { toDate } from "./helper";
+
+const transformData = (arr) => {
+  return arr.reduce((acc, { name, values }) => {
+    name === "date" ? (acc[name] = values.map(toDate)) : (acc[name] = values); // Assign the array of values to the corresponding key
+    return acc;
+  }, {});
+};
 
 export default async function postData(
   data = {
@@ -21,8 +29,11 @@ export default async function postData(
         },
       }
     );
-    console.log("Success:", response.data);
+    const cols = response.data.columns;
+    console.log("Success:", cols);
+    console.log("Success:", transformData(cols));
     onSucess();
+    return transformData(cols);
   } catch (error) {
     console.error("Error:", error);
     onFailure();

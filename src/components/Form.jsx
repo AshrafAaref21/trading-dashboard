@@ -1,18 +1,22 @@
-import { Form as AndForm, Button, DatePicker, Input } from "antd";
-import dayjs from "dayjs";
-import postData from "../utils/service";
+import { Form as AndForm, Button, DatePicker, Input, Spin } from "antd";
+import { useDataContext } from "../context/DataContext";
 
-function Form({ setBaseData }) {
+function Form() {
+  const { requestData, setData, isLoading, setIsloading } = useDataContext();
+
   const onFinish = async (values) => {
     console.log("Success:", values);
-    console.log(dayjs(values.dateRange[0]).format("YYYY-MM-DD"));
-    setBaseData([{ a: "a", b: "b" }]);
-
+    // console.log(dayjs(values.dateRange[0]).format("YYYY-MM-DD"));
+    // setBaseData([{ a: "a", b: "b" }]);
     console.log(">>>>>>>>>>>>>>");
-    await postData();
+    setIsloading(true);
+    const newData = await requestData();
+    setData(newData);
+    setIsloading(false);
   };
 
   const onFinishFailed = (errorInfo) => {
+    setIsloading(false);
     console.log("Failed:", errorInfo);
   };
   return (
@@ -32,7 +36,11 @@ function Form({ setBaseData }) {
         rules={[{ required: true, message: "Please Select Both Dates" }]}
         style={{ marginTop: "2rem" }}
       >
-        <DatePicker.RangePicker style={{ width: "60%" }} format="YYYY-MM-DD" />
+        <DatePicker.RangePicker
+          style={{ width: "60%" }}
+          format="YYYY-MM-DD"
+          disabled={isLoading}
+        />
       </AndForm.Item>
 
       <AndForm.Item
@@ -46,7 +54,7 @@ function Form({ setBaseData }) {
         ]}
         style={{ marginTop: "2rem" }}
       >
-        <Input style={{ width: "60%" }} />
+        <Input style={{ width: "60%" }} disabled={isLoading} />
       </AndForm.Item>
 
       <AndForm.Item
@@ -60,7 +68,7 @@ function Form({ setBaseData }) {
         ]}
         style={{ marginTop: "2rem" }}
       >
-        <Input style={{ width: "60%" }} />
+        <Input style={{ width: "60%" }} disabled={isLoading} />
       </AndForm.Item>
 
       <AndForm.Item
@@ -74,24 +82,31 @@ function Form({ setBaseData }) {
         ]}
         style={{ marginTop: "2rem" }}
       >
-        <Input style={{ width: "60%" }} />
+        <Input style={{ width: "60%" }} disabled={isLoading} />
       </AndForm.Item>
 
       <AndForm.Item
         wrapperCol={{ offset: 4, span: 36 }}
         style={{ marginTop: "2.5rem" }}
       >
-        <Button type="primary" htmlType="submit">
-          Submit
-        </Button>
-        <Button
-          style={{ marginLeft: "1.1rem" }}
-          type="primary"
-          danger
-          htmlType="reset"
-        >
-          Reset
-        </Button>
+        {isLoading ? (
+          <Spin size="large" />
+        ) : (
+          <>
+            <Button type="primary" htmlType="submit" disabled={isLoading}>
+              Send Request
+            </Button>
+            <Button
+              style={{ marginLeft: "1.1rem" }}
+              type="primary"
+              danger
+              htmlType="reset"
+              disabled={isLoading}
+            >
+              Reset
+            </Button>
+          </>
+        )}
       </AndForm.Item>
     </AndForm>
   );

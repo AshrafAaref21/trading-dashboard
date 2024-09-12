@@ -16,7 +16,7 @@ function Layout(props) {
 
   const contentStyle = {
     textAlign: "center",
-    padding: "2rem",
+    padding: "1rem",
     minHeight: 120,
     lineHeight: "55px",
     color: "#333333",

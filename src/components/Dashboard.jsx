@@ -3,8 +3,11 @@ import { Button } from "antd";
 import "./dashboard.css";
 import TabbedCharts from "./TabbedCharts";
 import DropdownWithTable from "./DropDownWithTable";
+import { useDataContext } from "../context/DataContext";
 
-function Dashboard({ setBaseData }) {
+function Dashboard() {
+  const { data, setData } = useDataContext();
+  console.log("context", data);
   return (
     <div className="dash-layout">
       <div className="dash-container">
@@ -13,7 +16,7 @@ function Dashboard({ setBaseData }) {
       </div>
       <Button
         className="dash-btn"
-        onClick={() => setBaseData([])}
+        onClick={() => setData({})}
         shape="circle"
         type="dashed"
         icon={<LeftCircleOutlined />}
