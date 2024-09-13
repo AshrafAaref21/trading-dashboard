@@ -8,14 +8,19 @@ import { useState } from "react";
 function ProfitCumChart() {
   const { data, chartData, setChartData, toggle, setToggle } = useDataContext();
 
-  console.log();
   const { layoutRef, onChangeLayout, handleReset, handleRelayout } =
     useRelayout(
       {
         width: 900,
-        height: 400,
+        height: "100%",
         xaxis: {
           title: "Date",
+          range:
+            data.date[0] === chartData.date[0] &&
+            data.date[data.date.length - 1] ===
+              chartData.date[chartData.date.length - 1]
+              ? [data.date[0], data.date[chartData.date.length - 1]]
+              : [chartData.date[0], chartData.date[chartData.date.length - 1]],
         },
         yaxis: {
           title: { text: "Profit Cumulative", standoff: 30 },
@@ -27,6 +32,7 @@ function ProfitCumChart() {
         showlegend: true,
         type: "lines+markers",
         mode: "markers",
+        dragmode: "pan",
       },
       data,
       setChartData,

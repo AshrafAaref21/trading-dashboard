@@ -20,6 +20,7 @@ export function useRelayout(
       layout["xaxis.range[0]"] === layout["xaxis.range[1]"]
     )
       return;
+
     setChartLayout({
       x0: dayjs(layout["xaxis.range[0]"]).format("YYYY-MM-DD"),
       x1: dayjs(layout["xaxis.range[1]"]).format("YYYY-MM-DD"),
