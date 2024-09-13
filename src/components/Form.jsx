@@ -2,18 +2,23 @@ import { Form as AndForm, Button, DatePicker, Input, Spin } from "antd";
 import { useDataContext } from "../context/DataContext";
 
 function Form() {
-  const { requestData, setData, setChartData, isLoading, setIsloading } =
-    useDataContext();
+  const {
+    requestData,
+    setInitialData,
+    setData,
+    setChartData,
+    isLoading,
+    setIsloading,
+  } = useDataContext();
 
   const onFinish = async (values) => {
     console.log("Success:", values);
-    // console.log(dayjs(values.dateRange[0]).format("YYYY-MM-DD"));
-    // setBaseData([{ a: "a", b: "b" }]);
     console.log(">>>>>>>>>>>>>>");
     setIsloading(true);
     const newData = await requestData();
     setData(newData);
     setChartData(newData);
+    setInitialData(newData);
     setIsloading(false);
   };
 

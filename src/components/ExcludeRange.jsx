@@ -4,8 +4,14 @@ import { useDataContext } from "../context/DataContext";
 import { Button, Checkbox, Slider } from "antd";
 
 function ExcludeRange() {
-  const { chartData, setChartData, isFilterEnabled, setIsFilterEnabled } =
-    useDataContext();
+  const {
+    data,
+    setData,
+    chartData,
+    setChartData,
+    isFilterEnabled,
+    setIsFilterEnabled,
+  } = useDataContext();
   const startDate = dayjs(chartData.date[0]).unix();
   const endDate = dayjs(chartData.date[chartData.date.length - 1]).unix();
 
@@ -21,18 +27,11 @@ function ExcludeRange() {
     setRange(values);
   };
   function handleClickFilter() {
-    const x = chartData.date.filter((date) => {
-      const itemDate = dayjs(date).unix();
-      return itemDate >= range[0] && itemDate <= range[1];
-    });
-    console.log("xxxx", x);
-
     const newObj = {};
 
     Object.keys(chartData).map((key) => {
       newObj[key] = [];
     });
-    console.log("range", range);
 
     chartData.date.map((date, index) => {
       const itemDate = dayjs(date);
@@ -47,6 +46,26 @@ function ExcludeRange() {
 
     console.log("newObj", newObj);
     setChartData(newObj);
+
+    const newData = {};
+
+    Object.keys(data).map((key) => {
+      newData[key] = [];
+    });
+
+    data.date.map((date, index) => {
+      const itemDate = dayjs(date);
+      if (
+        !(itemDate >= dayjs.unix(range[0]) && itemDate <= dayjs.unix(range[1]))
+      ) {
+        Object.keys(newData).map((key) => {
+          newData[key] = [...newData[key], data[key][index]];
+        });
+      }
+    });
+
+    console.log("newData", newData);
+    setData(newData);
   }
 
   return (

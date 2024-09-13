@@ -5,6 +5,7 @@ const DataContext = createContext(null);
 
 export function DataServiceProvider({ children }) {
   const requestData = postData;
+  const [initialData, setInitialData] = useState({});
   const [data, setData] = useState({});
   const [chartData, setChartData] = useState({});
   const [isLoading, setIsloading] = useState(false);
@@ -13,6 +14,8 @@ export function DataServiceProvider({ children }) {
   return (
     <DataContext.Provider
       value={{
+        initialData,
+        setInitialData,
         requestData,
         data,
         setData,
