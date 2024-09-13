@@ -4,9 +4,17 @@ import { Button, Switch, Tooltip } from "antd";
 import { useDataContext } from "../context/DataContext";
 import { useRelayout } from "../hooks/useRelayout";
 import { useState } from "react";
+import dayjs from "dayjs";
 
 function ProfitCumChart() {
   const { data, chartData, setChartData, toggle, setToggle } = useDataContext();
+
+  console.log(
+    "asdasd",
+    dayjs(data.date[chartData.date.length - 1])
+      .add(20, "day")
+      .format("YYYY-MM-DD")
+  );
 
   const { layoutRef, onChangeLayout, handleReset, handleRelayout } =
     useRelayout(
@@ -19,8 +27,18 @@ function ProfitCumChart() {
             data.date[0] === chartData.date[0] &&
             data.date[data.date.length - 1] ===
               chartData.date[chartData.date.length - 1]
-              ? [data.date[0], data.date[chartData.date.length - 1]]
-              : [chartData.date[0], chartData.date[chartData.date.length - 1]],
+              ? [
+                  data.date[0],
+                  dayjs(data.date[chartData.date.length - 1])
+                    .add(2, "day")
+                    .format("YYYY-MM-DD"),
+                ]
+              : [
+                  chartData.date[0],
+                  dayjs(chartData.date[chartData.date.length - 1])
+                    .add(2, "day")
+                    .format("YYYY-MM-DD"),
+                ],
         },
         yaxis: {
           title: { text: "Profit Cumulative", standoff: 30 },
@@ -116,10 +134,17 @@ function ProfitCumChart() {
               data.date[0] === chartData.date[0] &&
               data.date[data.date.length - 1] ===
                 chartData.date[chartData.date.length - 1]
-                ? [data.date[0], data.date[chartData.date.length - 1]]
+                ? [
+                    data.date[0],
+                    dayjs(data.date[chartData.date.length - 1])
+                      .add(1, "day")
+                      .format("YYYY-MM-DD"),
+                  ]
                 : [
-                    chartData.date[0],
-                    chartData.date[chartData.date.length - 1],
+                    dayjs(chartData.date[0]).subtract(1, "day"),
+                    dayjs(chartData.date[chartData.date.length - 1])
+                      .add(1, "day")
+                      .format("YYYY-MM-DD"),
                   ],
           },
           yaxis: {
