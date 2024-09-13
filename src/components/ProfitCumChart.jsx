@@ -44,20 +44,23 @@ function ProfitCumChart() {
     {
       x: toggleData.date, // The x-axis values
       y: cumulativeSum(toggleData.profit_short), // The y-values for 'profit_short'
-      mode: "lines",
       name: "Short",
+      type: "scatter",
+      mode: "lines+markers",
     },
     {
       x: toggleData.date,
       y: cumulativeSum(toggleData.profit_long),
-      mode: "lines",
       name: "Long",
+      type: "scatter",
+      mode: "lines+markers",
     },
     {
       x: toggleData.date,
       y: cumulativeSum(toggleData.profit_total),
-      mode: "lines",
       name: "Total",
+      type: "scatter",
+      mode: "lines+markers",
     },
   ];
 
@@ -96,6 +99,7 @@ function ProfitCumChart() {
             size="large"
             shape="circle"
             onClick={handleReset}
+            disabled={data === chartData || !toggle}
           >
             Reset
           </Button>
@@ -126,8 +130,6 @@ function ProfitCumChart() {
             y: 1.5,
           },
           showlegend: true,
-          type: "lines+markers",
-          mode: "markers",
           dragmode: "pan",
         }}
         style={{ width: "100%", height: "100%" }}
