@@ -127,7 +127,7 @@ function ProfitCumChart() {
         style={{ width: "100%", height: "100%" }}
         useResizeHandler={true}
         onRelayout={(layout) => {
-          toggle && onChangeLayout(layout);
+          onChangeLayout(layout);
         }}
       />
     </>
