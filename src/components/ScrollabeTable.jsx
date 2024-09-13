@@ -3,10 +3,11 @@ import { useDataContext } from "../context/DataContext";
 import { DownloadOutlined } from "@ant-design/icons";
 
 const ScrollableTable = () => {
-  const { chartData } = useDataContext();
-  //   if (!chartData.date) return;
-  console.log("Table", chartData);
-  const columns = Object.keys(chartData).map((key) => ({
+  const { chartData, data, toggle } = useDataContext();
+
+  const tableData = toggle ? chartData : data;
+
+  const columns = Object.keys(tableData).map((key) => ({
     title:
       key.replace(/_/g, " ").charAt(0).toUpperCase() +
       key.replace(/_/g, " ").slice(1),
@@ -21,9 +22,9 @@ const ScrollableTable = () => {
   }));
 
   // Convert the object into dataSource format
-  const dataSource = chartData.date.map((_, index) =>
-    Object.keys(chartData).reduce((acc, key) => {
-      acc[key] = chartData[key][index]; // Assign corresponding values for each column
+  const dataSource = tableData.date.map((_, index) =>
+    Object.keys(tableData).reduce((acc, key) => {
+      acc[key] = tableData[key][index]; // Assign corresponding values for each column
       acc.key = index; // Ensure each row has a unique key
       return acc;
     }, {})

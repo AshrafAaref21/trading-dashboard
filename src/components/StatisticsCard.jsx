@@ -3,8 +3,8 @@ import { Card, Col, Progress, Row, Statistic, Tooltip } from "antd";
 import { useDataContext } from "../context/DataContext";
 
 function StatisticsCard() {
-  const { chartData } = useDataContext();
-  console.log("stat", chartData);
+  const { chartData, data, toggle } = useDataContext();
+  const statData = toggle ? chartData : data;
   return (
     <div style={{ width: "500px" }}>
       <Row gutter={16} justify="center" style={{ textAlign: "center" }}>
@@ -27,7 +27,7 @@ function StatisticsCard() {
             >
               <Statistic
                 title={<span style={{ display: "none" }}>Total Profit</span>} // Hide title
-                value={chartData.profit_total
+                value={statData.profit_total
                   .reduce((acc, cur) => acc + cur, 0)
                   .toFixed(2)}
                 prefix={
@@ -67,11 +67,11 @@ function StatisticsCard() {
                 value={
                   Math.round(
                     (100 *
-                      chartData.profit_total.reduce(
+                      statData.profit_total.reduce(
                         (acc, cur) => acc + cur,
                         0
                       )) /
-                      chartData.mwh_total.reduce((acc, cur) => acc + cur, 0)
+                      statData.mwh_total.reduce((acc, cur) => acc + cur, 0)
                   ) / 100
                 }
                 prefix={
@@ -119,9 +119,9 @@ function StatisticsCard() {
                   type="circle"
                   percent={Math.round(
                     (100 *
-                      chartData.win_count.reduce((acc, cur) => acc + cur, 0)) /
-                      (chartData.win_count.reduce((acc, cur) => acc + cur, 0) +
-                        chartData.loss_count.reduce((acc, cur) => acc + cur, 0))
+                      statData.win_count.reduce((acc, cur) => acc + cur, 0)) /
+                      (statData.win_count.reduce((acc, cur) => acc + cur, 0) +
+                        statData.loss_count.reduce((acc, cur) => acc + cur, 0))
                   )}
                   strokeColor={{ "0%": "#108ee9", "100%": "#87d068" }}
                   format={(percent) => `${percent}%`}

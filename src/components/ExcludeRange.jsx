@@ -44,28 +44,26 @@ function ExcludeRange() {
       }
     });
 
-    console.log("newObj", newObj);
     setChartData(newObj);
 
-    const newData = {};
+    // const newData = {};
 
-    Object.keys(data).map((key) => {
-      newData[key] = [];
-    });
+    // Object.keys(data).map((key) => {
+    //   newData[key] = [];
+    // });
 
-    data.date.map((date, index) => {
-      const itemDate = dayjs(date);
-      if (
-        !(itemDate >= dayjs.unix(range[0]) && itemDate <= dayjs.unix(range[1]))
-      ) {
-        Object.keys(newData).map((key) => {
-          newData[key] = [...newData[key], data[key][index]];
-        });
-      }
-    });
+    // data.date.map((date, index) => {
+    //   const itemDate = dayjs(date);
+    //   if (
+    //     !(itemDate >= dayjs.unix(range[0]) && itemDate <= dayjs.unix(range[1]))
+    //   ) {
+    //     Object.keys(newData).map((key) => {
+    //       newData[key] = [...newData[key], data[key][index]];
+    //     });
+    //   }
+    // });
 
-    console.log("newData", newData);
-    setData(newData);
+    // setData(newData);
   }
 
   return (

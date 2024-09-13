@@ -3,10 +3,15 @@ import { filterObjectByDateRange } from "../utils/helper";
 import dayjs from "dayjs";
 import { useDataContext } from "../context/DataContext";
 
-export function useRelayout(baseLayout, baseData, setChartData) {
+export function useRelayout(
+  baseLayout,
+  baseData,
+  setChartData,
+  setToggle = () => {}
+) {
   const layoutRef = useRef(baseLayout);
-  const [chartLayout, setChartLayout, setData] = useState(null);
-  const { setIsFilterEnabled, initialData } = useDataContext();
+  const [chartLayout, setChartLayout] = useState(null);
+  const { setIsFilterEnabled, initialData, setData } = useDataContext();
 
   console.log("chartLayout", chartLayout);
   function onChangeLayout(layout) {
@@ -32,6 +37,7 @@ export function useRelayout(baseLayout, baseData, setChartData) {
     setChartData(initialData);
     setData(initialData);
     setIsFilterEnabled(false);
+    setToggle(false);
   }
 
   function handleRelayout() {

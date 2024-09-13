@@ -6,9 +6,7 @@ import { useRelayout } from "../hooks/useRelayout";
 import { useState } from "react";
 
 function ProfitCumChart() {
-  const { data, chartData, setChartData } = useDataContext();
-  const [toggle, setToggle] = useState(false);
-  console.log("toggle", toggle);
+  const { data, chartData, setChartData, toggle, setToggle } = useDataContext();
 
   const { layoutRef, onChangeLayout, handleReset, handleRelayout } =
     useRelayout(
@@ -30,7 +28,8 @@ function ProfitCumChart() {
         mode: "markers",
       },
       data,
-      setChartData
+      setChartData,
+      setToggle
     );
 
   const toggleData = toggle ? chartData : data;
@@ -78,7 +77,7 @@ function ProfitCumChart() {
             }}
           />
         </Tooltip>
-        <Tooltip title="Reset Changes" placement="top">
+        {/* <Tooltip title="Reset Changes" placement="top">
           <Button
             style={{
               marginLeft: "1.6rem",
@@ -92,7 +91,7 @@ function ProfitCumChart() {
           >
             Reset
           </Button>
-        </Tooltip>
+        </Tooltip> */}
       </div>
       <Plot
         data={transformedData}
