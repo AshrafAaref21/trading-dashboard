@@ -29,7 +29,7 @@ function ProfitCumChart() {
         type: "lines+markers",
         mode: "markers",
       },
-      data,
+      chartData,
       setChartData
     );
 
