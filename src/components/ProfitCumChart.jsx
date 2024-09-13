@@ -33,22 +33,23 @@ function ProfitCumChart() {
       setChartData
     );
 
+  const toggleData = toggle ? chartData : data;
   const transformedData = [
     {
-      x: chartData.date, // The x-axis values
-      y: cumulativeSum(chartData.profit_short), // The y-values for 'profit_short'
+      x: toggleData.date, // The x-axis values
+      y: cumulativeSum(toggleData.profit_short), // The y-values for 'profit_short'
       mode: "lines",
       name: "Short",
     },
     {
-      x: chartData.date,
-      y: cumulativeSum(chartData.profit_long),
+      x: toggleData.date,
+      y: cumulativeSum(toggleData.profit_long),
       mode: "lines",
       name: "Long",
     },
     {
-      x: chartData.date,
-      y: cumulativeSum(chartData.profit_total),
+      x: toggleData.date,
+      y: cumulativeSum(toggleData.profit_total),
       mode: "lines",
       name: "Total",
     },
@@ -72,7 +73,9 @@ function ProfitCumChart() {
             className="large-switch"
             style={{ zIndex: "9999" }}
             checked={toggle} // Controls the switch state
-            onChange={(state) => setToggle(state)} // Handles the state change
+            onChange={(state) => {
+              setToggle(state);
+            }}
           />
         </Tooltip>
         <Tooltip title="Reset Changes" placement="top">
