@@ -1,11 +1,14 @@
 import Plot from "react-plotly.js";
 import { cumulativeSum } from "../utils/helper";
-import { Button } from "antd";
+import { Button, Switch, Tooltip } from "antd";
 import { useDataContext } from "../context/DataContext";
 import { useRelayout } from "../hooks/useRelayout";
+import { useState } from "react";
 
 function ProfitCumChart() {
   const { data, chartData, setChartData } = useDataContext();
+  const [toggle, setToggle] = useState(false);
+  console.log("toggle", toggle);
 
   const { layoutRef, onChangeLayout, handleReset, handleRelayout } =
     useRelayout(
@@ -54,7 +57,7 @@ function ProfitCumChart() {
   return (
     <>
       <div style={{ marginTop: "0", marginBottom: "-2.6rem" }}>
-        <Button
+        {/* <Button
           size="large"
           shape="circle"
           type="primary"
@@ -62,27 +65,57 @@ function ProfitCumChart() {
           onClick={handleRelayout}
         >
           Apply
-        </Button>
-        <Button
-          style={{
-            marginLeft: "1.1rem",
-            zIndex: "9999",
-            padding: "6px",
-          }}
-          danger
-          size="large"
-          shape="circle"
-          onClick={handleReset}
-        >
-          Reset
-        </Button>
+        </Button> */}
+        <Tooltip title="Apply Changes" placement="top">
+          <Switch
+            // size="small"
+            className="large-switch"
+            style={{ zIndex: "9999" }}
+            checked={toggle} // Controls the switch state
+            onChange={(state) => setToggle(state)} // Handles the state change
+          />
+        </Tooltip>
+        <Tooltip title="Area Only" placement="top">
+          <Button
+            style={{
+              marginLeft: "1.6rem",
+              zIndex: "9999",
+              padding: "6px",
+            }}
+            danger
+            size="large"
+            shape="circle"
+            onClick={handleReset}
+          >
+            Reset
+          </Button>
+        </Tooltip>
       </div>
       <Plot
         data={transformedData}
-        layout={layoutRef.current}
+        layout={{
+          width: 900,
+          height: 400,
+          xaxis: {
+            title: "Date",
+          },
+          yaxis: {
+            title: { text: "Profit Cumulative", standoff: 30 },
+          },
+          legend: {
+            x: -0.2,
+            y: 1.5,
+          },
+          showlegend: true,
+          type: "lines+markers",
+          mode: "markers",
+          dragmode: "pan",
+        }}
         style={{ width: "100%", height: "100%" }}
         useResizeHandler={true}
-        onRelayout={onChangeLayout}
+        onRelayout={(layout) => {
+          toggle && onChangeLayout(layout);
+        }}
       />
     </>
   );

@@ -88,3 +88,6 @@ h6 {
 }
 
 /* end of ant design table scrollbar styling */
+.large-switch {
+  transform: scale(1.35); /* Increase the size */
+}

@@ -10,8 +10,8 @@ const transformData = (arr) => {
 
 export default async function postData(
   data = {
-    from_date: "2023-11-15",
-    to_date: "2024-11-17",
+    from_date: "2024-01-01",
+    to_date: "2024-03-31",
     market: "PJMvirts",
     model: "v3.0.0",
     node: "miso",

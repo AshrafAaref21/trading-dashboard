@@ -8,11 +8,24 @@ export function useRelayout(baseLayout, baseData, setChartData) {
   const [chartLayout, setChartLayout] = useState(null);
   const { setIsFilterEnabled } = useDataContext();
 
+  console.log("chartLayout", chartLayout);
   function onChangeLayout(layout) {
+    if (
+      layout === chartLayout ||
+      layout["xaxis.range[0]"] === layout["xaxis.range[1]"]
+    )
+      return;
     setChartLayout({
       x0: dayjs(layout["xaxis.range[0]"]).format("YYYY-MM-DD"),
       x1: dayjs(layout["xaxis.range[1]"]).format("YYYY-MM-DD"),
     });
+
+    const filteredData = filterObjectByDateRange(
+      baseData,
+      dayjs(layout["xaxis.range[0]"]).format("YYYY-MM-DD"),
+      dayjs(layout["xaxis.range[1]"]).format("YYYY-MM-DD")
+    );
+    setChartData(filteredData);
   }
 
   function handleReset() {
