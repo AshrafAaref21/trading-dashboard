@@ -57,7 +57,7 @@ function ProfitCumChart() {
 
   return (
     <>
-      <div style={{ marginTop: "0", marginBottom: "-2.6rem" }}>
+      <div style={{ marginTop: "10px", marginBottom: "-2.6rem" }}>
         {/* <Button
           size="large"
           shape="circle"
@@ -78,12 +78,13 @@ function ProfitCumChart() {
             }}
           />
         </Tooltip>
-        {/* <Tooltip title="Reset Changes" placement="top">
+        <Tooltip title="Reset Changes" placement="top">
           <Button
             style={{
-              marginLeft: "1.6rem",
+              marginLeft: "3rem",
+              marginRight: "-3rem",
               zIndex: "9999",
-              padding: "6px",
+              padding: "8px",
             }}
             danger
             size="large"
@@ -92,13 +93,13 @@ function ProfitCumChart() {
           >
             Reset
           </Button>
-        </Tooltip> */}
+        </Tooltip>
       </div>
       <Plot
         data={transformedData}
         layout={{
           width: 900,
-          height: 400,
+          height: "100%",
           xaxis: {
             title: "Date",
             range:

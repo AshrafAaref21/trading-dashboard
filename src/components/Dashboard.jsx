@@ -14,7 +14,7 @@ function Dashboard() {
       <div className="dash-container">
         <TabbedCharts />
         {/* <DropdownWithTable /> */}
-        <div style={{ marginTop: "1rem" }}>
+        <div style={{ marginTop: "1rem", height: "100%" }}>
           <StatisticsCard />
           <ScrollableTable />
         </div>

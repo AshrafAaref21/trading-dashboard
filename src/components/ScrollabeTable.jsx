@@ -47,17 +47,15 @@ const ScrollableTable = () => {
   };
 
   return (
-    <div style={{ marginTop: "1.5rem" }}>
-      <div className="custom-table-container">
-        <Table
-          style={{ width: "500px", fontSize: "12px" }}
-          columns={columns}
-          dataSource={dataSource}
-          pagination={false} // Disable pagination for simplicity
-          scroll={{ x: 500, y: 222 }} // Make the table scrollable
-          bordered
-        />
-      </div>
+    <div style={{ marginTop: "1.5rem", height: "100%" }}>
+      <Table
+        style={{ width: "500px", fontSize: "12px" }}
+        columns={columns}
+        dataSource={dataSource}
+        pagination={false} // Disable pagination for simplicity
+        scroll={{ x: 500, y: 222 }} // Make the table scrollable
+        bordered
+      />
       <Button
         type="primary"
         icon={<DownloadOutlined />}
