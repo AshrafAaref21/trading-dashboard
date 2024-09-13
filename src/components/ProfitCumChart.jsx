@@ -66,7 +66,7 @@ function ProfitCumChart() {
         >
           Apply
         </Button> */}
-        <Tooltip title="Apply Changes" placement="top">
+        <Tooltip title="Area Only" placement="top">
           <Switch
             // size="small"
             className="large-switch"
@@ -75,7 +75,7 @@ function ProfitCumChart() {
             onChange={(state) => setToggle(state)} // Handles the state change
           />
         </Tooltip>
-        <Tooltip title="Area Only" placement="top">
+        <Tooltip title="Reset Changes" placement="top">
           <Button
             style={{
               marginLeft: "1.6rem",
