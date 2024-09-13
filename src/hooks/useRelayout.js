@@ -5,7 +5,7 @@ import { useDataContext } from "../context/DataContext";
 
 export function useRelayout(baseLayout, baseData, setChartData) {
   const layoutRef = useRef(baseLayout);
-  const [chartLayout, setChartLayout] = useState(null);
+  const [chartLayout, setChartLayout, setData] = useState(null);
   const { setIsFilterEnabled, initialData } = useDataContext();
 
   console.log("chartLayout", chartLayout);
@@ -30,6 +30,7 @@ export function useRelayout(baseLayout, baseData, setChartData) {
 
   function handleReset() {
     setChartData(initialData);
+    setData(initialData);
     setIsFilterEnabled(false);
   }
 
