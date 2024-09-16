@@ -2,7 +2,6 @@ import Plot from "react-plotly.js";
 import { Button, Switch, Tooltip } from "antd";
 import { useDataContext } from "../context/DataContext";
 import { useRelayout } from "../hooks/useRelayout";
-import dayjs from "dayjs";
 
 function CustomPlot({ x = "date", Ys, transX, transY, type, mode }) {
   const { data, chartData, setChartData, toggle, setToggle } = useDataContext();

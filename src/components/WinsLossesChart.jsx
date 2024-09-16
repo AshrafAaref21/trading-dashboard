@@ -1,7 +1,5 @@
 import Plot from "react-plotly.js";
 import { useDataContext } from "../context/DataContext";
-import { useRelayout } from "../hooks/useRelayout";
-import { Button } from "antd";
 
 function WinsLossesChart() {
   const { initialData, chartData } = useDataContext();

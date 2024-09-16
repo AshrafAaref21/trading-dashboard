@@ -1,5 +1,6 @@
 import axios from "axios";
 import { toDate } from "./helper";
+import dayjs from "dayjs";
 
 const transformData = (arr) => {
   return arr.reduce((acc, { name, values }) => {
@@ -16,13 +17,17 @@ export default async function postData(
     model: "v3.0.0",
     node: "miso",
   },
-  onSucess = () => {},
-  onFailure = (onSucess = () => {})
+  setIsloading,
+  setError
 ) {
   try {
     const response = await axios.post(
       "https://quantum-zero-bayfm.ondigitalocean.app/report",
-      data,
+      {
+        ...data,
+        from_date: dayjs(data.dateRange[0]).format("YYYY-MM-DD"),
+        to_date: dayjs(data.dateRange[1]).format("YYYY-MM-DD"),
+      },
       {
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
@@ -30,12 +35,23 @@ export default async function postData(
       }
     );
     const cols = response.data.columns;
-    console.log("Success:", cols);
-    console.log("Success:", transformData(cols));
-    onSucess();
+
+    if (!transformData(cols).date.length) {
+      throw Error("There's no data for this short time period.");
+    }
+
     return transformData(cols);
   } catch (error) {
-    console.error("Error:", error);
-    onFailure();
+    setIsloading(false);
+    if (error.status == 500) {
+      setError({
+        message:
+          "The [market, model, node] combination cannot be retrieved (likely nonexistent).",
+      });
+    } else {
+      setError({ message: `${error.content || error.message}` });
+    }
+
+    throw Error(error);
   }
 }

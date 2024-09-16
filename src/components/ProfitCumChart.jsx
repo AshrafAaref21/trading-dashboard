@@ -7,6 +7,7 @@ import { useRelayout } from "../hooks/useRelayout";
 function ProfitCumChart() {
   const { initialData, data, chartData, setChartData, toggle, setToggle } =
     useDataContext();
+  console.log("initialData", initialData);
 
   const {
     onChangeLayout,
@@ -26,6 +27,9 @@ function ProfitCumChart() {
       type: "scatter",
       mode: "lines+markers",
       visible: traceVisibility[0] ? true : "legendonly",
+      marker: {
+        size: 4, // Smaller scatter points (adjust size as needed)
+      },
     },
     {
       x: toggleData.date,
@@ -34,6 +38,9 @@ function ProfitCumChart() {
       type: "scatter",
       mode: "lines+markers",
       visible: traceVisibility[1] ? true : "legendonly",
+      marker: {
+        size: 4, // Smaller scatter points (adjust size as needed)
+      },
     },
     {
       x: toggleData.date,
@@ -42,6 +49,9 @@ function ProfitCumChart() {
       type: "scatter",
       mode: "lines+markers",
       visible: traceVisibility[2] ? true : "legendonly",
+      marker: {
+        size: 4, // Smaller scatter points (adjust size as needed)
+      },
     },
   ];
 
@@ -62,7 +72,7 @@ function ProfitCumChart() {
         <Tooltip title="Reset Changes" placement="top">
           <Button
             style={{
-              marginLeft: "3rem",
+              marginLeft: "4rem",
               marginRight: "-3rem",
               zIndex: "9999",
               padding: "8px",
@@ -85,7 +95,7 @@ function ProfitCumChart() {
           xaxis: {
             title: "Date",
             range: chartLayout
-              ? [chartLayout?.["x0"], chartLayout?.["x1"]]
+              ? [chartData.date[0], chartData.date[chartData.date.length - 1]]
               : [data.date[0], data.date[data.date.length - 1]],
           },
           yaxis: {

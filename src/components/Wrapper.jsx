@@ -6,7 +6,7 @@ import Layout from "./Layout";
 
 function Wrapper() {
   const { data } = useDataContext();
-  console.log("data//...", data);
+
   return (
     <Layout
       Header={<Header />}

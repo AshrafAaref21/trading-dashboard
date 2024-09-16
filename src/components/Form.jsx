@@ -1,4 +1,4 @@
-import { Form as AndForm, Button, DatePicker, Input, Spin } from "antd";
+import { Alert, Form as AndForm, Button, DatePicker, Input, Spin } from "antd";
 import { useDataContext } from "../context/DataContext";
 
 function Form() {
@@ -9,22 +9,26 @@ function Form() {
     setChartData,
     isLoading,
     setIsloading,
+    setError,
+    error,
   } = useDataContext();
 
+  console.log("errorerrorerror", error);
+
   const onFinish = async (values) => {
-    console.log("Success:", values);
-    console.log(">>>>>>>>>>>>>>");
+    console.log("values", values);
     setIsloading(true);
-    const newData = await requestData();
+    const newData = await requestData(values, setIsloading, setError);
+    setInitialData(newData);
     setData(newData);
     setChartData(newData);
-    setInitialData(newData);
     setIsloading(false);
+    setError(null);
   };
 
-  const onFinishFailed = (errorInfo) => {
+  const onFinishFailed = async (errorInfo) => {
     setIsloading(false);
-    console.log("Failed:", errorInfo);
+    console.error("Failed:", errorInfo);
   };
   return (
     <AndForm
@@ -35,7 +39,7 @@ function Form() {
       initialValues={{ remember: true }}
       onFinish={onFinish}
       onFinishFailed={onFinishFailed}
-      autoComplete="off"
+      autoComplete="on"
     >
       <AndForm.Item
         label="Date Range"
@@ -92,6 +96,24 @@ function Form() {
         <Input style={{ width: "60%" }} disabled={isLoading} />
       </AndForm.Item>
 
+      {error && (
+        <div
+          style={{
+            marginBottom: 20,
+            minHeight: "50px",
+            marginTop: 30,
+            display: "flex",
+            justifyContent: "center",
+          }}
+        >
+          <Alert
+            message={error.message}
+            type="error"
+            showIcon
+            style={{ width: "50%" }}
+          />
+        </div>
+      )}
       <AndForm.Item
         wrapperCol={{ offset: 4, span: 36 }}
         style={{ marginTop: "2.5rem" }}
