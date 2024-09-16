@@ -3,7 +3,6 @@ import { cumulativeSum } from "../utils/helper";
 import { Button, Switch, Tooltip } from "antd";
 import { useDataContext } from "../context/DataContext";
 import { useRelayout } from "../hooks/useRelayout";
-import { useState } from "react";
 import dayjs from "dayjs";
 
 function ProfitCumChart() {
@@ -16,53 +15,15 @@ function ProfitCumChart() {
       .format("YYYY-MM-DD")
   );
 
-  const {
-    layoutRef,
-    onChangeLayout,
-    handleReset,
-    handleRelayout,
-    chartLayout,
-  } = useRelayout(
-    {
-      width: 900,
-      height: "100%",
-      xaxis: {
-        title: "Date",
-        range:
-          data.date[0] === chartData.date[0] &&
-          data.date[data.date.length - 1] ===
-            chartData.date[chartData.date.length - 1]
-            ? [
-                data.date[0],
-                dayjs(data.date[chartData.date.length - 1])
-                  .add(2, "day")
-                  .format("YYYY-MM-DD"),
-              ]
-            : [
-                chartData.date[0],
-                dayjs(chartData.date[chartData.date.length - 1])
-                  .add(2, "day")
-                  .format("YYYY-MM-DD"),
-              ],
-      },
-      yaxis: {
-        title: { text: "Profit Cumulative", standoff: 30 },
-      },
-      legend: {
-        x: -0.2,
-        y: 1.5,
-      },
-      showlegend: true,
-      type: "lines+markers",
-      mode: "markers",
-      dragmode: "pan",
-    },
+  const { onChangeLayout, handleReset, chartLayout } = useRelayout(
+    {},
     data,
     setChartData,
     setToggle
   );
 
   const toggleData = toggle ? chartData : data;
+
   const transformedData = [
     {
       x: toggleData.date, // The x-axis values
@@ -90,21 +51,12 @@ function ProfitCumChart() {
   return (
     <>
       <div style={{ marginTop: "10px", marginBottom: "-2.6rem" }}>
-        {/* <Button
-          size="large"
-          shape="circle"
-          type="primary"
-          style={{ padding: "6px", zIndex: "9999" }}
-          onClick={handleRelayout}
-        >
-          Apply
-        </Button> */}
         <Tooltip title="Area Only" placement="top">
           <Switch
-            // size="small"
+            disabled={chartLayout === null}
             className="large-switch"
             style={{ zIndex: "9999" }}
-            checked={toggle} // Controls the switch state
+            checked={toggle}
             onChange={(state) => {
               setToggle(state);
             }}

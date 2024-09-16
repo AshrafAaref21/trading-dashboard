@@ -7,7 +7,7 @@ import dayjs from "dayjs";
 function CustomPlot({ x = "date", Ys, transX, transY, type, mode }) {
   const { data, chartData, setChartData, toggle, setToggle } = useDataContext();
 
-  const { onChangeLayout, handleReset } = useRelayout(
+  const { onChangeLayout, handleReset, chartLayout } = useRelayout(
     {},
     data,
     setChartData,
@@ -64,22 +64,9 @@ function CustomPlot({ x = "date", Ys, transX, transY, type, mode }) {
           height: "100%",
           xaxis: {
             title: "Date",
-            range:
-              data.date[0] === chartData.date[0] &&
-              data.date[data.date.length - 1] ===
-                chartData.date[chartData.date.length - 1]
-                ? [
-                    data.date[0],
-                    dayjs(data.date[chartData.date.length - 1])
-                      .add(1, "day")
-                      .format("YYYY-MM-DD"),
-                  ]
-                : [
-                    dayjs(chartData.date[0]).subtract(1, "day"),
-                    dayjs(chartData.date[chartData.date.length - 1])
-                      .add(1, "day")
-                      .format("YYYY-MM-DD"),
-                  ],
+            range: chartLayout
+              ? [chartLayout?.["x0"], chartLayout?.["x1"]]
+              : [data.date[0], data.date[data.date.length - 1]],
           },
           yaxis: {
             title: { text: "Profit Cumulative", standoff: 30 },
