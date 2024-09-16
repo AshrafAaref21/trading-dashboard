@@ -45,6 +45,7 @@ export function useRelayout(baseLayout, baseData, setChartData) {
     setIsFilterEnabled(false);
     setToggle(false);
     setChartLayout(null);
+    setTraceVisibility([true, true, true]);
   }
 
   function handleRelayout() {

@@ -68,7 +68,7 @@ function ExcludeRange() {
 
   return (
     <div style={{ marginTop: "10px", padding: "0 100px" }}>
-      <div>
+      <>
         <Checkbox onChange={handleCheckboxChange} checked={isFilterEnabled}>
           Enable Date Range Filter
         </Checkbox>
@@ -83,19 +83,17 @@ function ExcludeRange() {
             Exclude Range
           </Button>
         )}
-      </div>
+      </>
       {isFilterEnabled && (
-        <div>
-          <Slider
-            range
-            value={range}
-            min={startDate}
-            max={endDate}
-            onChange={handleSliderChange}
-            tipFormatter={(value) => dayjs.unix(value).format("YYYY-MM-DD")}
-            style={{ marginLeft: "50px" }}
-          />
-        </div>
+        <Slider
+          range
+          value={range}
+          min={startDate}
+          max={endDate}
+          onChange={handleSliderChange}
+          tipFormatter={(value) => dayjs.unix(value).format("YYYY-MM-DD")}
+          style={{ marginLeft: "50px" }}
+        />
       )}
     </div>
   );

@@ -47,7 +47,7 @@ function ProfitCumChart() {
 
   return (
     <>
-      <div style={{ marginTop: "10px", marginBottom: "-2.6rem" }}>
+      <div style={{ marginBottom: "-2.6rem" }}>
         <Tooltip title="Area Only" placement="top">
           <Switch
             disabled={chartLayout === null}
