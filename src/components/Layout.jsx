@@ -12,6 +12,7 @@ function Layout(props) {
     paddingInline: 48,
     lineHeight: "64px",
     backgroundColor: "#4A90E2",
+    alignContent: "center",
   };
 
   const contentStyle = {

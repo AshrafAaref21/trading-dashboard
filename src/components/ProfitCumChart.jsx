@@ -16,46 +16,51 @@ function ProfitCumChart() {
       .format("YYYY-MM-DD")
   );
 
-  const { layoutRef, onChangeLayout, handleReset, handleRelayout } =
-    useRelayout(
-      {
-        width: 900,
-        height: "100%",
-        xaxis: {
-          title: "Date",
-          range:
-            data.date[0] === chartData.date[0] &&
-            data.date[data.date.length - 1] ===
-              chartData.date[chartData.date.length - 1]
-              ? [
-                  data.date[0],
-                  dayjs(data.date[chartData.date.length - 1])
-                    .add(2, "day")
-                    .format("YYYY-MM-DD"),
-                ]
-              : [
-                  chartData.date[0],
-                  dayjs(chartData.date[chartData.date.length - 1])
-                    .add(2, "day")
-                    .format("YYYY-MM-DD"),
-                ],
-        },
-        yaxis: {
-          title: { text: "Profit Cumulative", standoff: 30 },
-        },
-        legend: {
-          x: -0.2,
-          y: 1.5,
-        },
-        showlegend: true,
-        type: "lines+markers",
-        mode: "markers",
-        dragmode: "pan",
+  const {
+    layoutRef,
+    onChangeLayout,
+    handleReset,
+    handleRelayout,
+    chartLayout,
+  } = useRelayout(
+    {
+      width: 900,
+      height: "100%",
+      xaxis: {
+        title: "Date",
+        range:
+          data.date[0] === chartData.date[0] &&
+          data.date[data.date.length - 1] ===
+            chartData.date[chartData.date.length - 1]
+            ? [
+                data.date[0],
+                dayjs(data.date[chartData.date.length - 1])
+                  .add(2, "day")
+                  .format("YYYY-MM-DD"),
+              ]
+            : [
+                chartData.date[0],
+                dayjs(chartData.date[chartData.date.length - 1])
+                  .add(2, "day")
+                  .format("YYYY-MM-DD"),
+              ],
       },
-      data,
-      setChartData,
-      setToggle
-    );
+      yaxis: {
+        title: { text: "Profit Cumulative", standoff: 30 },
+      },
+      legend: {
+        x: -0.2,
+        y: 1.5,
+      },
+      showlegend: true,
+      type: "lines+markers",
+      mode: "markers",
+      dragmode: "pan",
+    },
+    data,
+    setChartData,
+    setToggle
+  );
 
   const toggleData = toggle ? chartData : data;
   const transformedData = [
@@ -130,22 +135,9 @@ function ProfitCumChart() {
           height: "100%",
           xaxis: {
             title: "Date",
-            range:
-              data.date[0] === chartData.date[0] &&
-              data.date[data.date.length - 1] ===
-                chartData.date[chartData.date.length - 1]
-                ? [
-                    data.date[0],
-                    dayjs(data.date[chartData.date.length - 1])
-                      .add(1, "day")
-                      .format("YYYY-MM-DD"),
-                  ]
-                : [
-                    dayjs(chartData.date[0]).subtract(1, "day"),
-                    dayjs(chartData.date[chartData.date.length - 1])
-                      .add(1, "day")
-                      .format("YYYY-MM-DD"),
-                  ],
+            range: chartLayout
+              ? [chartLayout?.["x0"], chartLayout?.["x1"]]
+              : [data.date[0], data.date[data.date.length - 1]],
           },
           yaxis: {
             title: { text: "Profit Cumulative", standoff: 30 },

@@ -2,7 +2,6 @@ import { LeftCircleOutlined } from "@ant-design/icons";
 import { Button } from "antd";
 import "./dashboard.css";
 import TabbedCharts from "./TabbedCharts";
-import DropdownWithTable from "./DropDownWithTable";
 import { useDataContext } from "../context/DataContext";
 import ScrollableTable from "./ScrollabeTable";
 import StatisticsCard from "./StatisticsCard";
@@ -13,7 +12,6 @@ function Dashboard() {
     <div className="dash-layout">
       <div className="dash-container">
         <TabbedCharts />
-        {/* <DropdownWithTable /> */}
         <div style={{ marginTop: "1rem", height: "100%" }}>
           <StatisticsCard />
           <ScrollableTable />

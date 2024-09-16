@@ -5,6 +5,7 @@ import WinsLossesChart from "./WinsLossesChart";
 import { useDataContext } from "../context/DataContext";
 import { useRelayout } from "../hooks/useRelayout";
 import ExcludeRange from "./ExcludeRange";
+import CustomPlot from "./CustomPlot";
 
 // const { TabPane } = Tabs;
 
@@ -28,7 +29,14 @@ const TabbedCharts = () => {
         </Item>
 
         <Item tab="Wins vs Losses" key="2">
-          <WinsLossesChart />
+          {/* <WinsLossesChart /> */}
+          <CustomPlot
+            Ys={[
+              { name: "mwh_total", title: "# Economics" },
+              { name: "win_count", title: "# Wins" },
+            ]}
+            mode="lines"
+          />
         </Item>
       </Tabs>
       <ExcludeRange />
