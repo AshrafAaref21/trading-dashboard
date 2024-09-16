@@ -4,35 +4,17 @@ import { useRelayout } from "../hooks/useRelayout";
 import { Button } from "antd";
 
 function WinsLossesChart() {
-  const { data, chartData, setChartData } = useDataContext();
-  const { layoutRef, onChangeLayout, handleReset, handleRelayout } =
-    useRelayout(
-      {
-        xaxis: {
-          title: "Date",
-          // tickformat: "%Y-%m-%d", // Format ticks as YYYY-MM-DD
-        },
-        yaxis: {
-          title: { text: "Wins and Losses", standoff: 30 }, // Y-axis label
-        },
-        showlegend: true, // Show the legend for renamed traces
-        legend: { x: -0.2, y: 1.5 }, // Position the legend
-        width: 900,
-        height: 400,
-      },
-      data,
-      setChartData
-    );
+  const { data } = useDataContext();
   const transformedData = [
     {
-      x: chartData.date,
-      y: chartData.mwh_total,
+      x: data.date,
+      y: data.mwh_total,
       name: "# Economics",
       mode: "lines",
     },
     {
-      x: chartData.date,
-      y: chartData.win_count,
+      x: data.date,
+      y: data.win_count,
       name: "# Wins",
       mode: "lines",
     },
@@ -40,7 +22,7 @@ function WinsLossesChart() {
 
   return (
     <>
-      <div style={{ marginTop: "0", marginBottom: "-2.6rem" }}>
+      {/* <div style={{ marginTop: "0", marginBottom: "-2.6rem" }}>
         <Button
           size="large"
           shape="circle"
@@ -63,13 +45,24 @@ function WinsLossesChart() {
         >
           Reset
         </Button>
-      </div>
+      </div> */}
       <Plot
         data={transformedData}
-        layout={layoutRef.current}
+        layout={{
+          xaxis: {
+            title: "Date",
+          },
+          yaxis: {
+            title: { text: "Wins and Losses", standoff: 30 }, // Y-axis label
+          },
+          showlegend: true, //
+          legend: { x: -0.2, y: 1.5 },
+          width: 900,
+          height: 400,
+        }}
         style={{ width: "100%", height: "100%" }}
         useResizeHandler={true}
-        onRelayout={onChangeLayout}
+        // onRelayout={onChangeLayout}
       />
     </>
   );

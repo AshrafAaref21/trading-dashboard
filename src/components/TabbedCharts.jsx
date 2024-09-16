@@ -17,10 +17,10 @@ const TabbedCharts = () => {
     <div>
       <Tabs
         defaultActiveKey="1"
-        onChange={() => {
-          handleReset();
-          setIsFilterEnabled(false);
-        }}
+        // onChange={() => {
+        //   handleReset();
+        //   setIsFilterEnabled(false);
+        // }}
         centered
       >
         <Item tab="Profit Chart" key="1">
@@ -29,14 +29,14 @@ const TabbedCharts = () => {
         </Item>
 
         <Item tab="Wins vs Losses" key="2">
-          {/* <WinsLossesChart /> */}
-          <CustomPlot
+          <WinsLossesChart />
+          {/* <CustomPlot
             Ys={[
               { name: "mwh_total", title: "# Economics" },
               { name: "win_count", title: "# Wins" },
             ]}
             mode="lines"
-          />
+          /> */}
         </Item>
       </Tabs>
       <ExcludeRange />

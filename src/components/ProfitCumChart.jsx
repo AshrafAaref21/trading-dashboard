@@ -3,24 +3,18 @@ import { cumulativeSum } from "../utils/helper";
 import { Button, Switch, Tooltip } from "antd";
 import { useDataContext } from "../context/DataContext";
 import { useRelayout } from "../hooks/useRelayout";
-import dayjs from "dayjs";
 
 function ProfitCumChart() {
-  const { data, chartData, setChartData, toggle, setToggle } = useDataContext();
+  const { initialData, data, chartData, setChartData, toggle, setToggle } =
+    useDataContext();
 
-  console.log(
-    "asdasd",
-    dayjs(data.date[chartData.date.length - 1])
-      .add(20, "day")
-      .format("YYYY-MM-DD")
-  );
-
-  const { onChangeLayout, handleReset, chartLayout } = useRelayout(
-    {},
-    data,
-    setChartData,
-    setToggle
-  );
+  const {
+    onChangeLayout,
+    handleReset,
+    chartLayout,
+    traceVisibility,
+    handleLegendClick,
+  } = useRelayout({}, data, setChartData);
 
   const toggleData = toggle ? chartData : data;
 
@@ -31,6 +25,7 @@ function ProfitCumChart() {
       name: "Short",
       type: "scatter",
       mode: "lines+markers",
+      visible: traceVisibility[0] ? true : "legendonly",
     },
     {
       x: toggleData.date,
@@ -38,6 +33,7 @@ function ProfitCumChart() {
       name: "Long",
       type: "scatter",
       mode: "lines+markers",
+      visible: traceVisibility[1] ? true : "legendonly",
     },
     {
       x: toggleData.date,
@@ -45,6 +41,7 @@ function ProfitCumChart() {
       name: "Total",
       type: "scatter",
       mode: "lines+markers",
+      visible: traceVisibility[2] ? true : "legendonly",
     },
   ];
 
@@ -74,7 +71,7 @@ function ProfitCumChart() {
             size="large"
             shape="circle"
             onClick={handleReset}
-            disabled={data === chartData || !toggle}
+            disabled={data === initialData && chartData === initialData}
           >
             Reset
           </Button>
@@ -106,6 +103,7 @@ function ProfitCumChart() {
         onRelayout={(layout) => {
           onChangeLayout(layout);
         }}
+        onLegendClick={handleLegendClick}
       />
     </>
   );
