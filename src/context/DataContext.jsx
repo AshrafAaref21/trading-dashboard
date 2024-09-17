@@ -11,6 +11,7 @@ export function DataServiceProvider({ children }) {
   const [chartData, setChartData] = useState({});
   const [isLoading, setIsloading] = useState(false);
   const [isFilterEnabled, setIsFilterEnabled] = useState(false);
+  const [excludedRanges, setExcludedRanges] = useState([]);
   const [toggle, setToggle] = useState(false);
 
   return (
@@ -29,6 +30,8 @@ export function DataServiceProvider({ children }) {
         setIsloading,
         isFilterEnabled,
         setIsFilterEnabled,
+        excludedRanges,
+        setExcludedRanges,
         toggle,
         setToggle,
       }}

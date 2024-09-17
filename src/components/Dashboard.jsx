@@ -1,5 +1,5 @@
 import { LeftCircleOutlined } from "@ant-design/icons";
-import { Button } from "antd";
+import { Button, Tooltip } from "antd";
 import "./dashboard.css";
 import TabbedCharts from "./TabbedCharts";
 import { useDataContext } from "../context/DataContext";
@@ -17,13 +17,15 @@ function Dashboard() {
           <ScrollableTable />
         </div>
       </div>
-      <Button
-        className="dash-btn"
-        onClick={() => setData({})}
-        shape="circle"
-        type="dashed"
-        icon={<LeftCircleOutlined />}
-      />
+      <Tooltip title="Back to form" placement="top">
+        <Button
+          className="dash-btn"
+          onClick={() => setData({})}
+          shape="circle"
+          type="dashed"
+          icon={<LeftCircleOutlined />}
+        />
+      </Tooltip>
     </div>
   );
 }

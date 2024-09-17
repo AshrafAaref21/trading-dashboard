@@ -7,7 +7,11 @@ export function toDate(days) {
 
 export function cumulativeSum(arr) {
   let cumSum = 0;
-  return arr.map((value) => (cumSum += value));
+  return arr.map((value) => {
+    // Check if the value is null or undefined, treat it as 0
+    cumSum += value !== null && value !== undefined ? value : 0;
+    return cumSum;
+  });
 }
 
 export function filterObjectByDateRange(data, startDate, endDate) {
@@ -37,12 +41,42 @@ export function filterObjectByDateRange(data, startDate, endDate) {
   return newObj;
 }
 
-// Example usage
-const data = {
-  date: ["2023-01-01", "2023-01-15", "2023-02-01"],
-  wins: [10, 20, 30],
-};
+export function getUniqueSubArrays(arr) {
+  const seen = new Set();
+  return arr.filter((subArray) => {
+    const serialized = JSON.stringify(subArray);
+    const isDuplicate = seen.has(serialized);
+    seen.add(serialized);
+    return !isDuplicate;
+  });
+}
 
-const filteredData = filterObjectByDateRange(data, "2023-01-01", "2023-01-31");
-console.log(filteredData);
-// Output: { date: ['2023-01-01', '2023-01-15'], wins: [10, 20] }
+export function mergeRanges(ranges) {
+  if (ranges.length === 0) return [];
+
+  const uniqueRanges = getUniqueSubArrays(ranges);
+
+  // Sort ranges by their start value
+  const parsedRanges = uniqueRanges.map(([start, end]) => [
+    new Date(start),
+    new Date(end),
+  ]);
+
+  console.log("parsedRanges", parsedRanges);
+
+  const sortedRanges = [...parsedRanges].sort((a, b) => a[0] - b[0]);
+
+  console.log("sortedRanges", sortedRanges);
+
+  return sortedRanges.reduce((merged, [currentStart, currentEnd]) => {
+    if (merged.length === 0 || currentStart > merged[merged.length - 1][1]) {
+      return [...merged, [currentStart, currentEnd]];
+    } else {
+      const lastRange = merged[merged.length - 1];
+      const newEnd = new Date(
+        Math.max(lastRange[1].getTime(), currentEnd.getTime())
+      );
+      return [...merged.slice(0, -1), [lastRange[0], newEnd]];
+    }
+  }, []);
+}

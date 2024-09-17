@@ -1,87 +1,71 @@
 import dayjs from "dayjs";
-import { useState } from "react";
 import { useDataContext } from "../context/DataContext";
 import { Button, Checkbox, Slider } from "antd";
+import { useExcludeFilter } from "../hooks/useExcludeFilter";
 
 function ExcludeRange() {
   const {
     data,
-    setData,
     chartData,
-    setChartData,
+    toggle,
     isFilterEnabled,
     setIsFilterEnabled,
+    excludedRanges,
+    setExcludedRanges,
   } = useDataContext();
-  const startDate = dayjs(chartData.date[0]).unix();
-  const endDate = dayjs(chartData.date[chartData.date.length - 1]).unix();
 
-  console.log("chartData.date[-1]", chartData.date[chartData.date.length - 1]);
+  const targetData = toggle ? chartData : data;
 
-  const [range, setRange] = useState([startDate, endDate]);
+  const startDate = dayjs(targetData.date[0]).unix();
+  const endDate = dayjs(targetData.date[targetData.date.length - 1]).unix();
+
+  const {
+    range,
+    HandleIsFilter,
+    handleSliderChange,
+    handleClickFilter,
+    handleResetExcluding,
+  } = useExcludeFilter();
 
   const handleCheckboxChange = (e) => {
     setIsFilterEnabled(e.target.checked);
+    if (!e.target.checked && excludedRanges.length > 0) handleResetExcluding();
+    if (e.target.checked && excludedRanges.length > 0) HandleIsFilter();
   };
-
-  const handleSliderChange = (values) => {
-    setRange(values);
-  };
-  function handleClickFilter() {
-    const newObj = {};
-
-    Object.keys(chartData).map((key) => {
-      newObj[key] = [];
-    });
-
-    chartData.date.map((date, index) => {
-      const itemDate = dayjs(date);
-      if (
-        !(itemDate >= dayjs.unix(range[0]) && itemDate <= dayjs.unix(range[1]))
-      ) {
-        Object.keys(newObj).map((key) => {
-          newObj[key] = [...newObj[key], chartData[key][index]];
-        });
-      }
-    });
-
-    setChartData(newObj);
-
-    const newData = {};
-
-    Object.keys(data).map((key) => {
-      newData[key] = [];
-    });
-
-    data.date.map((date, index) => {
-      const itemDate = dayjs(date);
-      if (
-        !(itemDate >= dayjs.unix(range[0]) && itemDate <= dayjs.unix(range[1]))
-      ) {
-        Object.keys(newData).map((key) => {
-          newData[key] = [...newData[key], data[key][index]];
-        });
-      }
-    });
-
-    setData(newData);
-  }
 
   return (
-    <div style={{ marginTop: "10px", padding: "0 100px" }}>
+    <div style={{ marginTop: "15px", padding: "0 100px" }}>
       <>
         <Checkbox onChange={handleCheckboxChange} checked={isFilterEnabled}>
           Enable Date Range Filter
         </Checkbox>
         {isFilterEnabled && (
-          <Button
-            // danger
-            // type="dashed"
-            shape="round"
-            onClick={handleClickFilter}
-            style={{ marginLeft: "3rem" }}
-          >
-            Exclude Range
-          </Button>
+          <>
+            <Button
+              // danger
+              type="dashed"
+              shape="round"
+              onClick={handleClickFilter}
+              style={{ marginLeft: "3rem" }}
+            >
+              Exclude Range
+            </Button>
+
+            <Button
+              danger
+              // type="dashed"
+              disabled={excludedRanges.length < 1}
+              shape="round"
+              onClick={() => {
+                handleResetExcluding();
+                setIsFilterEnabled(false);
+                setExcludedRanges([]);
+              }}
+              style={{ marginLeft: "3rem" }}
+            >
+              Reset Excluded Ranges
+            </Button>
+          </>
         )}
       </>
       {isFilterEnabled && (

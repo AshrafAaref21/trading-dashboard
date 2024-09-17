@@ -1,13 +1,24 @@
 import Plot from "react-plotly.js";
-import { cumulativeSum } from "../utils/helper";
+import {
+  cumulativeSum,
+  getUniqueSubArrays,
+  mergeRanges,
+} from "../utils/helper";
 import { Button, Switch, Tooltip } from "antd";
 import { useDataContext } from "../context/DataContext";
 import { useRelayout } from "../hooks/useRelayout";
+import dayjs from "dayjs";
 
 function ProfitCumChart() {
-  const { initialData, data, chartData, setChartData, toggle, setToggle } =
-    useDataContext();
-  console.log("initialData", initialData);
+  const {
+    data,
+    chartData,
+    setChartData,
+    toggle,
+    setToggle,
+    isFilterEnabled,
+    excludedRanges,
+  } = useDataContext();
 
   const {
     onChangeLayout,
@@ -24,68 +35,62 @@ function ProfitCumChart() {
       x: toggleData.date, // The x-axis values
       y: cumulativeSum(toggleData.profit_short), // The y-values for 'profit_short'
       name: "Short",
-      type: "scatter",
-      mode: "lines+markers",
       visible: traceVisibility[0] ? true : "legendonly",
-      marker: {
-        size: 4, // Smaller scatter points (adjust size as needed)
-      },
     },
     {
       x: toggleData.date,
       y: cumulativeSum(toggleData.profit_long),
-      name: "Long",
-      type: "scatter",
-      mode: "lines+markers",
       visible: traceVisibility[1] ? true : "legendonly",
-      marker: {
-        size: 4, // Smaller scatter points (adjust size as needed)
-      },
+      name: "Long",
     },
     {
       x: toggleData.date,
       y: cumulativeSum(toggleData.profit_total),
       name: "Total",
-      type: "scatter",
-      mode: "lines+markers",
       visible: traceVisibility[2] ? true : "legendonly",
-      marker: {
-        size: 4, // Smaller scatter points (adjust size as needed)
-      },
     },
   ];
 
   return (
-    <>
-      <div style={{ marginBottom: "-2.6rem" }}>
+    <div style={{ position: "relative" }}>
+      <div
+        style={{
+          position: "absolute",
+          top: 0,
+          left: "40%",
+          margin: toggle ? "10px" : "20px",
+          height: "10%",
+        }}
+      >
         <Tooltip title="Area Only" placement="top">
           <Switch
             disabled={chartLayout === null}
             className="large-switch"
-            style={{ zIndex: "9999" }}
+            style={{ zIndex: "9999", marginTop: "auto" }}
             checked={toggle}
             onChange={(state) => {
               setToggle(state);
             }}
           />
         </Tooltip>
-        <Tooltip title="Reset Changes" placement="top">
-          <Button
-            style={{
-              marginLeft: "4rem",
-              marginRight: "-3rem",
-              zIndex: "9999",
-              padding: "8px",
-            }}
-            danger
-            size="large"
-            shape="circle"
-            onClick={handleReset}
-            disabled={data === initialData && chartData === initialData}
-          >
-            Reset
-          </Button>
-        </Tooltip>
+        {toggle && (
+          <Tooltip title="Reset Changes" placement="top">
+            <Button
+              style={{
+                marginLeft: "4rem",
+                zIndex: "9999",
+                padding: "4px",
+                // height: "100%",
+              }}
+              danger
+              size="large"
+              shape="circle"
+              onClick={handleReset}
+            >
+              Reset
+            </Button>
+          </Tooltip>
+        )}
       </div>
       <Plot
         data={transformedData}
@@ -107,6 +112,23 @@ function ProfitCumChart() {
           },
           showlegend: true,
           dragmode: "pan",
+          shapes:
+            excludedRanges.length > 0 && isFilterEnabled
+              ? mergeRanges(excludedRanges).map(([start, end]) => ({
+                  type: "rect",
+                  x0: dayjs(start).format("YYYY-MM-DD"),
+                  x1: dayjs(end).format("YYYY-MM-DD"),
+                  y0: 0,
+                  y1: 1,
+                  xref: "x",
+                  yref: "paper",
+                  fillcolor: "rgba(255, 99, 132, 0.2)",
+                  line: {
+                    color: "rgba(255, 99, 132, 0.2)",
+                    width: 0,
+                  },
+                }))
+              : [],
         }}
         style={{ width: "100%", height: "100%" }}
         useResizeHandler={true}
@@ -115,7 +137,7 @@ function ProfitCumChart() {
         }}
         onLegendClick={handleLegendClick}
       />
-    </>
+    </div>
   );
 }
 

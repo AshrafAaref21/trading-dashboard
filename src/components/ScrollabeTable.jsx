@@ -21,14 +21,15 @@ const ScrollableTable = () => {
     ),
   }));
 
-  // Convert the object into dataSource format
-  const dataSource = tableData.date.map((_, index) =>
-    Object.keys(tableData).reduce((acc, key) => {
-      acc[key] = tableData[key][index]; // Assign corresponding values for each column
-      acc.key = index; // Ensure each row has a unique key
-      return acc;
-    }, {})
-  );
+  const dataSource = tableData.date
+    .map((_, index) =>
+      Object.keys(tableData).reduce((acc, key) => {
+        acc[key] = tableData[key][index]; // Assign corresponding values for each column
+        acc.key = index; // Ensure each row has a unique key
+        return acc;
+      }, {})
+    )
+    .filter((row) => row.profit_total !== null);
 
   const downloadCSV = () => {
     const headers = columns.map((col) => col.title).join(",") + "\n"; // Create CSV headers

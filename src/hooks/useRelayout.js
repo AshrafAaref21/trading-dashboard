@@ -16,8 +16,7 @@ export function useRelayout(baseLayout, baseData, setChartData) {
   };
 
   const [chartLayout, setChartLayout] = useState(null);
-  const { setIsFilterEnabled, initialData, setData, setToggle } =
-    useDataContext();
+  const { data, setToggle } = useDataContext();
 
   function onChangeLayout(layout) {
     if (
@@ -40,9 +39,7 @@ export function useRelayout(baseLayout, baseData, setChartData) {
   }
 
   function handleReset() {
-    setChartData(initialData);
-    setData(initialData);
-    setIsFilterEnabled(false);
+    setChartData(data);
     setToggle(false);
     setChartLayout(null);
     setTraceVisibility([true, true, true]);

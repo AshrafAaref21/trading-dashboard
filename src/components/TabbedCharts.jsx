@@ -2,17 +2,11 @@ import { Tabs } from "antd";
 import Item from "antd/es/list/Item";
 import ProfitCumChart from "./ProfitCumChart";
 import WinsLossesChart from "./WinsLossesChart";
-import { useDataContext } from "../context/DataContext";
-import { useRelayout } from "../hooks/useRelayout";
 import ExcludeRange from "./ExcludeRange";
-import CustomPlot from "./CustomPlot";
 
 // const { TabPane } = Tabs;
 
 const TabbedCharts = () => {
-  const { data, setChartData, setIsFilterEnabled } = useDataContext();
-  const { handleReset } = useRelayout({}, data, setChartData);
-
   return (
     <div>
       <Tabs
@@ -25,7 +19,7 @@ const TabbedCharts = () => {
       >
         <Item tab="Profit Chart" key="1">
           <ProfitCumChart />
-          {/* <TestChart /> */}
+          <ExcludeRange />
         </Item>
 
         <Item tab="Wins vs Losses" key="2">
@@ -39,7 +33,6 @@ const TabbedCharts = () => {
           /> */}
         </Item>
       </Tabs>
-      <ExcludeRange />
     </div>
   );
 };
