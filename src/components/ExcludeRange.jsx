@@ -34,40 +34,42 @@ function ExcludeRange() {
   };
 
   return (
-    <div style={{ marginTop: "15px", padding: "0 100px" }}>
+    <div style={{ marginTop: "15px", padding: "0 100px", width: "100%" }}>
       <>
-        <Checkbox onChange={handleCheckboxChange} checked={isFilterEnabled}>
+        <Checkbox
+          onChange={handleCheckboxChange}
+          checked={isFilterEnabled}
+          style={{ width: "33%" }}
+        >
           Enable Date Range Filter
         </Checkbox>
-        {isFilterEnabled && (
-          <>
-            <Button
-              // danger
-              type="dashed"
-              shape="round"
-              onClick={handleClickFilter}
-              style={{ marginLeft: "3rem" }}
-            >
-              Exclude Range
-            </Button>
+        <Button
+          disabled={!isFilterEnabled}
+          // danger
+          type="dashed"
+          shape="round"
+          onClick={handleClickFilter}
+          style={{ marginLeft: "3rem" }}
+        >
+          Exclude Range
+        </Button>
 
-            <Button
-              danger
-              // type="dashed"
-              disabled={excludedRanges.length < 1}
-              shape="round"
-              onClick={() => {
-                handleResetExcluding();
-                setIsFilterEnabled(false);
-                setExcludedRanges([]);
-              }}
-              style={{ marginLeft: "3rem" }}
-            >
-              Reset Excluded Ranges
-            </Button>
-          </>
-        )}
+        <Button
+          danger
+          // type="dashed"
+          disabled={excludedRanges.length < 1 || !isFilterEnabled}
+          shape="round"
+          onClick={() => {
+            handleResetExcluding();
+            setIsFilterEnabled(false);
+            setExcludedRanges([]);
+          }}
+          style={{ marginLeft: "3rem" }}
+        >
+          Reset Excluded Ranges
+        </Button>
       </>
+
       {isFilterEnabled && (
         <Slider
           range
