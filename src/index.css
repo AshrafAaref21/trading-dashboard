@@ -91,3 +91,7 @@ h6 {
 .large-switch {
   transform: scale(1.35); /* Increase the size */
 }
+
+.custom-plot .modebar {
+  margin-right: 1rem;
+}

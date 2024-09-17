@@ -8,11 +8,22 @@ export function useRelayout(baseLayout, baseData, setChartData) {
   const [traceVisibility, setTraceVisibility] = useState([true, true, true]);
 
   const handleLegendClick = (event) => {
+    // const traceIndex = event.curveNumber; // Get the index of the clicked trace
+    // const newVisibility = [...traceVisibility];
+    // newVisibility[traceIndex] = !newVisibility[traceIndex]; // Toggle visibility
+    // setTraceVisibility(newVisibility); // Update state
+    // return false; // Prevent Plotly's default legend toggle behavior
+
     const traceIndex = event.curveNumber; // Get the index of the clicked trace
-    const newVisibility = [...traceVisibility];
-    newVisibility[traceIndex] = !newVisibility[traceIndex]; // Toggle visibility
-    setTraceVisibility(newVisibility); // Update state
-    return false; // Prevent Plotly's default legend toggle behavior
+    // Create a new visibility array where only the clicked trace is visible
+    const newVisibility = traceVisibility.map(
+      (_, index) => index === traceIndex
+    );
+
+    // Update the state with the new visibility array
+    setTraceVisibility(newVisibility);
+
+    return false;
   };
 
   const [chartLayout, setChartLayout] = useState(null);

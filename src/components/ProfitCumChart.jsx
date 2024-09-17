@@ -1,9 +1,5 @@
 import Plot from "react-plotly.js";
-import {
-  cumulativeSum,
-  getUniqueSubArrays,
-  mergeRanges,
-} from "../utils/helper";
+import { cumulativeSum, mergeRanges } from "../utils/helper";
 import { Button, Switch, Tooltip } from "antd";
 import { useDataContext } from "../context/DataContext";
 import { useRelayout } from "../hooks/useRelayout";
@@ -35,18 +31,33 @@ function ProfitCumChart() {
       x: toggleData.date, // The x-axis values
       y: cumulativeSum(toggleData.profit_short), // The y-values for 'profit_short'
       name: "Short",
+      type: "scatter",
+      mode: "lines+markers", // This makes the plot only display lines+markers
+      marker: {
+        size: 4, // Customize marker size
+      },
       visible: traceVisibility[0] ? true : "legendonly",
     },
     {
       x: toggleData.date,
       y: cumulativeSum(toggleData.profit_long),
-      visible: traceVisibility[1] ? true : "legendonly",
       name: "Long",
+      type: "scatter",
+      mode: "lines+markers", // This makes the plot only display lines+markers
+      marker: {
+        size: 4, // Customize marker size
+      },
+      visible: traceVisibility[1] ? true : "legendonly",
     },
     {
       x: toggleData.date,
       y: cumulativeSum(toggleData.profit_total),
       name: "Total",
+      type: "scatter",
+      mode: "lines+markers", // This makes the plot only display lines+markers
+      marker: {
+        size: 4, // Customize marker size
+      },
       visible: traceVisibility[2] ? true : "legendonly",
     },
   ];
@@ -73,24 +84,24 @@ function ProfitCumChart() {
             }}
           />
         </Tooltip>
-        {toggle && (
-          <Tooltip title="Reset Changes" placement="top">
-            <Button
-              style={{
-                marginLeft: "4rem",
-                zIndex: "9999",
-                padding: "4px",
-                // height: "100%",
-              }}
-              danger
-              size="large"
-              shape="circle"
-              onClick={handleReset}
-            >
-              Reset
-            </Button>
-          </Tooltip>
-        )}
+
+        <Tooltip title="Reset Changes" placement="top">
+          <Button
+            style={{
+              marginLeft: "4rem",
+              zIndex: "9999",
+              padding: "4px",
+              // height: "100%",
+            }}
+            danger
+            size="large"
+            shape="circle"
+            onClick={handleReset}
+            disabled={!chartLayout}
+          >
+            Reset
+          </Button>
+        </Tooltip>
       </div>
       <Plot
         data={transformedData}
@@ -122,9 +133,9 @@ function ProfitCumChart() {
                   y1: 1,
                   xref: "x",
                   yref: "paper",
-                  fillcolor: "rgba(255, 99, 132, 0.2)",
+                  fillcolor: "rgba(200, 200, 200, 0.5)",
                   line: {
-                    color: "rgba(255, 99, 132, 0.2)",
+                    color: "rgba(200, 200, 200, 0.5)",
                     width: 0,
                   },
                 }))
@@ -136,6 +147,20 @@ function ProfitCumChart() {
           onChangeLayout(layout);
         }}
         onLegendClick={handleLegendClick}
+        config={
+          {
+            modeBarButtons: [
+              [
+                "zoom2d", // Zoom button
+                "pan2d", // Pan button
+                "zoomIn2d", // Zoom in button
+                "zoomOut2d",
+              ],
+            ],
+            displaylogo: false, // Remove the Plotly logo
+            responsive: true,
+          } // Keep the chart responsive
+        }
       />
     </div>
   );
