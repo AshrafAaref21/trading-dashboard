@@ -64,6 +64,7 @@ function WinsLossesChart() {
                 "pan2d", // Pan button
                 "zoomIn2d", // Zoom in button
                 "zoomOut2d",
+                "resetScale2d",
               ],
             ],
             displaylogo: false, // Remove the Plotly logo
