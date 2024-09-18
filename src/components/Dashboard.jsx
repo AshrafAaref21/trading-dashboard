@@ -3,8 +3,9 @@ import { Button, Tooltip } from "antd";
 import "./dashboard.css";
 import TabbedCharts from "./TabbedCharts";
 import { useDataContext } from "../context/DataContext";
-import ScrollableTable from "./ScrollabeTable";
+
 import StatisticsCard from "./StatisticsCard";
+import DropdownWithTable from "./DropDownWithTable";
 
 function Dashboard() {
   const { setData } = useDataContext();
@@ -14,7 +15,8 @@ function Dashboard() {
         <TabbedCharts />
         <div style={{ marginTop: "1rem", height: "100%" }}>
           <StatisticsCard />
-          <ScrollableTable />
+          <DropdownWithTable />
+          {/* <ScrollableTable /> */}
         </div>
       </div>
       <Tooltip title="Back to form" placement="top">

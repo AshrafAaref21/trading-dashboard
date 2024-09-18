@@ -80,3 +80,39 @@ export function mergeRanges(ranges) {
     }
   }, []);
 }
+
+export function filterMultipleRanges(excludedRanges, chartData) {
+  console.log("chartDatachartData", chartData);
+  const isDateExcluded = (date) => {
+    const itemDate = dayjs(date);
+    return excludedRanges.some(([start, end]) => {
+      const startDate = dayjs(start);
+      const endDate = dayjs(end);
+      return itemDate.isBetween(startDate, endDate, null, "[]");
+    });
+  };
+
+  const newChartData = {};
+
+  Object.keys(chartData).map((key) => {
+    newChartData[key] = [];
+  });
+
+  chartData.date.map((date, index) => {
+    const itemDate = dayjs(date);
+    const isExcluded = isDateExcluded(itemDate);
+
+    Object.keys(newChartData).map((key) => {
+      if (key === "date") {
+        newChartData[key] = [...newChartData[key], chartData[key][index]];
+      } else {
+        newChartData[key] = [
+          ...newChartData[key],
+          isExcluded ? null : chartData[key][index],
+        ];
+      }
+    });
+  });
+
+  return newChartData;
+}

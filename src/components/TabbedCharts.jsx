@@ -19,11 +19,11 @@ const TabbedCharts = () => {
       >
         <Item tab="Profit Chart" key="1">
           <ProfitCumChart />
-          <ExcludeRange />
         </Item>
 
         <Item tab="Wins vs Losses" key="2">
           <WinsLossesChart />
+
           {/* <CustomPlot
             Ys={[
               { name: "mwh_total", title: "# Economics" },
@@ -33,6 +33,7 @@ const TabbedCharts = () => {
           /> */}
         </Item>
       </Tabs>
+      <ExcludeRange />
     </div>
   );
 };

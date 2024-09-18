@@ -2,6 +2,7 @@ import dayjs from "dayjs";
 import { useDataContext } from "../context/DataContext";
 import { useState } from "react";
 import isBetween from "dayjs/plugin/isBetween"; // Import isBetween plugin
+import { filterMultipleRanges } from "../utils/helper";
 
 dayjs.extend(isBetween);
 
@@ -123,74 +124,14 @@ export function useExcludeFilter() {
     const newChartData = resetData(chartData, initialData);
     const newData = resetData(data, initialData);
 
-    // Update the state with reset values
     setChartData(newChartData);
     setData(newData);
-
-    // setIsFilterEnabled(false);
   }
 
   function HandleIsFilter() {
-    const isDateExcluded = (date) => {
-      const itemDate = dayjs(date);
-      return excludedRanges.some(([start, end]) => {
-        const startDate = dayjs(start);
-        const endDate = dayjs(end);
-        return itemDate.isBetween(startDate, endDate, null, "[]");
-      });
-    };
-    const newChartData = {};
-    Object.keys(chartData).map((key) => {
-      newChartData[key] = [];
-    });
-
-    chartData.date.map((date, index) => {
-      const itemDate = dayjs(date);
-      const isExcluded = isDateExcluded(itemDate);
-
-      Object.keys(newChartData).map((key) => {
-        if (key === "date") {
-          newChartData[key] = [...newChartData[key], chartData[key][index]];
-        } else {
-          newChartData[key] = [
-            ...newChartData[key],
-            isExcluded ? null : chartData[key][index],
-          ];
-        }
-      });
-    });
-
+    const newChartData = filterMultipleRanges(excludedRanges, chartData);
     setChartData(newChartData);
-
-    const newData = {};
-    Object.keys(data).map((key) => {
-      newData[key] = [];
-    });
-
-    data.date.map((date, index) => {
-      const isDateExcluded = (date) => {
-        const itemDate = dayjs(date);
-        return excludedRanges.some(([start, end]) => {
-          const startDate = dayjs(start);
-          const endDate = dayjs(end);
-          return itemDate.isBetween(startDate, endDate, null, "[]");
-        });
-      };
-      const itemDate = dayjs(date);
-      const isExcluded = isDateExcluded(itemDate);
-
-      Object.keys(newData).map((key) => {
-        if (key === "date") {
-          newData[key] = [...newData[key], data[key][index]];
-        } else {
-          newData[key] = [
-            ...newData[key],
-            isExcluded ? null : data[key][index],
-          ];
-        }
-      });
-    });
-
+    const newData = filterMultipleRanges(excludedRanges, data);
     setData(newData);
   }
 

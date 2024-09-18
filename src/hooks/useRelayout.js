@@ -5,7 +5,7 @@ import { useDataContext } from "../context/DataContext";
 
 export function useRelayout(baseLayout, baseData, setChartData) {
   const layoutRef = useRef(baseLayout);
-  const [traceVisibility, setTraceVisibility] = useState([true, true, true]);
+  const [traceVisibility, setTraceVisibility] = useState([false, false, true]);
 
   const handleLegendClick = (event) => {
     // const traceIndex = event.curveNumber; // Get the index of the clicked trace
