@@ -6,16 +6,22 @@ import { useDataContext } from "../context/DataContext";
 
 import StatisticsCard from "./StatisticsCard";
 import DropdownWithTable from "./DropDownWithTable";
+import { useDataTables } from "../hooks/useDataTables";
 
 function Dashboard() {
   const { setData } = useDataContext();
+  const { selectedOption, handleSelectChange, dataframes } = useDataTables();
   return (
     <div className="dash-layout">
       <div className="dash-container">
         <TabbedCharts />
         <div style={{ marginTop: "1rem", height: "100%" }}>
-          <StatisticsCard />
-          <DropdownWithTable />
+          <DropdownWithTable
+            selectedOption={selectedOption}
+            handleSelectChange={handleSelectChange}
+            dataframes={dataframes}
+          />
+          <StatisticsCard displayData={dataframes[selectedOption]} />
           {/* <ScrollableTable /> */}
         </div>
       </div>

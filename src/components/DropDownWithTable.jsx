@@ -1,32 +1,13 @@
-import { useState } from "react";
-import { Button, Select, Table } from "antd";
-import { useDataContext } from "../context/DataContext";
+import { Button, Select, Table, Tooltip } from "antd";
 import { DownloadOutlined } from "@ant-design/icons";
-import { filterMultipleRanges } from "../utils/helper";
 
 const { Option } = Select;
 
-const DropdownWithTable = () => {
-  const [selectedOption, setSelectedOption] = useState("Current");
-  const {
-    initialData,
-    data,
-    chartData,
-    toggle,
-    isFilterEnabled,
-    excludedRanges,
-  } = useDataContext();
-
-  const tableData = toggle ? chartData : data;
-  const dataframes = {
-    Current: tableData,
-    Excluded: isFilterEnabled
-      ? data
-      : filterMultipleRanges(excludedRanges, data),
-    Toggle: chartData,
-    Full: initialData,
-  };
-
+const DropdownWithTable = ({
+  selectedOption,
+  handleSelectChange,
+  dataframes,
+}) => {
   const dataSource = dataframes[selectedOption].date
     .map((_, index) =>
       Object.keys(dataframes[selectedOption]).reduce((acc, key) => {
@@ -37,7 +18,7 @@ const DropdownWithTable = () => {
     )
     .filter((row) => row.profit_total !== null);
 
-  const columns = Object.keys(initialData).map((key) => ({
+  const columns = Object.keys(dataframes["Current"]).map((key) => ({
     title:
       key.replace(/_/g, " ").charAt(0).toUpperCase() +
       key.replace(/_/g, " ").slice(1),
@@ -67,23 +48,35 @@ const DropdownWithTable = () => {
     document.body.removeChild(link); // Remove the link from the DOM
   };
 
-  // Function to handle dropdown selection
-  const handleSelectChange = (value) => {
-    setSelectedOption(value);
-  };
-
   return (
-    <div style={{ marginTop: "10px", height: "100%" }}>
-      <Select
-        value={selectedOption}
-        style={{ width: 200, marginBottom: 20, height: 35 }}
-        onChange={handleSelectChange}
+    <div style={{ marginBottom: "35px" }}>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          marginBottom: 20,
+        }}
       >
-        <Option value="Current">Current Data</Option>
-        <Option value="Excluded">Excluded Data</Option>
-        <Option value="Toggle">Toggle Data</Option>
-        <Option value="Full">Full Data</Option>
-      </Select>
+        <Select
+          value={selectedOption}
+          style={{ width: "80%", height: 35 }}
+          onChange={handleSelectChange}
+        >
+          <Option value="Current">Current Data</Option>
+          <Option value="Excluded">Excluded Data</Option>
+          <Option value="Toggle">Toggle Data</Option>
+          <Option value="Full">Full Data</Option>
+        </Select>
+        <Tooltip title="Download as csv">
+          <Button
+            type="primary"
+            icon={<DownloadOutlined />}
+            onClick={downloadCSV}
+            shape="round"
+            size="large"
+          />
+        </Tooltip>
+      </div>
 
       <Table
         style={{ width: "500px", fontSize: "12px" }}
@@ -93,17 +86,6 @@ const DropdownWithTable = () => {
         scroll={{ x: 500, y: 200 }}
         bordered
       />
-      <Button
-        type="primary"
-        icon={<DownloadOutlined />}
-        onClick={downloadCSV}
-        title="Download as csv"
-        shape="round"
-        size="large"
-        style={{ marginTop: "1.2rem" }}
-      >
-        Download
-      </Button>
     </div>
   );
 };

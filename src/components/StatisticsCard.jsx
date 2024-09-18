@@ -1,10 +1,7 @@
 import { DollarOutlined, ThunderboltOutlined } from "@ant-design/icons";
 import { Card, Col, Progress, Row, Statistic, Tooltip } from "antd";
-import { useDataContext } from "../context/DataContext";
 
-function StatisticsCard() {
-  const { chartData, data, toggle } = useDataContext();
-  const statData = toggle ? chartData : data;
+function StatisticsCard({ displayData }) {
   return (
     <div style={{ width: "500px" }}>
       <Row gutter={16} justify="center" style={{ textAlign: "center" }}>
@@ -27,7 +24,7 @@ function StatisticsCard() {
             >
               <Statistic
                 title={<span style={{ display: "none" }}>Total Profit</span>} // Hide title
-                value={statData.profit_total
+                value={displayData.profit_total
                   .reduce((acc, cur) => acc + cur, 0)
                   .toFixed(2)}
                 prefix={
@@ -67,11 +64,11 @@ function StatisticsCard() {
                 value={
                   Math.round(
                     (100 *
-                      statData.profit_total.reduce(
+                      displayData.profit_total.reduce(
                         (acc, cur) => acc + cur,
                         0
                       )) /
-                      statData.mwh_total.reduce((acc, cur) => acc + cur, 0)
+                      displayData.mwh_total.reduce((acc, cur) => acc + cur, 0)
                   ) / 100
                 }
                 prefix={
@@ -119,9 +116,18 @@ function StatisticsCard() {
                   type="circle"
                   percent={Math.round(
                     (100 *
-                      statData.win_count.reduce((acc, cur) => acc + cur, 0)) /
-                      (statData.win_count.reduce((acc, cur) => acc + cur, 0) +
-                        statData.loss_count.reduce((acc, cur) => acc + cur, 0))
+                      displayData.win_count.reduce(
+                        (acc, cur) => acc + cur,
+                        0
+                      )) /
+                      (displayData.win_count.reduce(
+                        (acc, cur) => acc + cur,
+                        0
+                      ) +
+                        displayData.loss_count.reduce(
+                          (acc, cur) => acc + cur,
+                          0
+                        ))
                   )}
                   strokeColor={{ "0%": "#108ee9", "100%": "#87d068" }}
                   format={(percent) => `${percent}%`}
