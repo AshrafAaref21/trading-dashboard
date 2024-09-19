@@ -62,10 +62,9 @@ const DropdownWithTable = ({
           style={{ width: "80%", height: 35 }}
           onChange={handleSelectChange}
         >
-          <Option value="Current">Current Data</Option>
-          <Option value="Excluded">Excluded Data</Option>
-          <Option value="Toggle">Toggle Data</Option>
-          <Option value="Full">Full Data</Option>
+          <Option value="Current">Displayed Data</Option>
+          <Option value="Excluded">Exclusions Data</Option>
+          <Option value="Full">Original Data</Option>
         </Select>
         <Tooltip title="Download as csv">
           <Button

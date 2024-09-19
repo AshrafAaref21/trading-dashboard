@@ -24,7 +24,6 @@ export function useDataTables() {
     Excluded: isFilterEnabled
       ? data
       : filterMultipleRanges(excludedRanges, data),
-    Toggle: chartData,
     Full: initialData,
   };
 
