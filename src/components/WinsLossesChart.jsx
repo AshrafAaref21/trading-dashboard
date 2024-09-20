@@ -64,8 +64,8 @@ function WinsLossesChart() {
             excludedRanges.length > 0 && isFilterEnabled
               ? mergeRanges(excludedRanges).map(([start, end]) => ({
                   type: "rect",
-                  x0: dayjs(start).format("YYYY-MM-DD"),
-                  x1: dayjs(end).format("YYYY-MM-DD"),
+                  x0: dayjs(start).subtract(1, "day").format("YYYY-MM-DD"),
+                  x1: dayjs(end).add(1, "day").format("YYYY-MM-DD"),
                   y0: 0,
                   y1: 1,
                   xref: "x",
