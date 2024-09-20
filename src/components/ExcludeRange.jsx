@@ -16,8 +16,10 @@ function ExcludeRange() {
 
   const targetData = toggle ? chartData : data;
 
-  const startDate = dayjs(targetData.date[0]).unix();
-  const endDate = dayjs(targetData.date[targetData.date.length - 1]).unix();
+  const startDate = dayjs(targetData.date[0]).utc().unix();
+  const endDate = dayjs(targetData.date[targetData.date.length - 1])
+    .utc()
+    .unix();
 
   const {
     range,
