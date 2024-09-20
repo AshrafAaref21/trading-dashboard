@@ -26,7 +26,7 @@ function WinsLossesChart() {
             ? "win_count"
             : "win_count_" + transformer[legend]
         }`
-      ],
+      ].map((value) => (value === null ? 0 : value)),
       name:
         transformer[legend] === "total"
           ? "# Total Wins"
@@ -38,7 +38,9 @@ function WinsLossesChart() {
     },
     {
       x: data.date,
-      y: data[`mwh_${transformer[legend]}`],
+      y: data[`mwh_${transformer[legend]}`].map((value) =>
+        value === null ? 0 : value
+      ),
       name: `# ${
         transformer[legend][0].toUpperCase() + transformer[legend].substring(1)
       } Economics`,
