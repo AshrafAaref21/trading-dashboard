@@ -3,6 +3,9 @@ import { useDataContext } from "../context/DataContext";
 import { useState } from "react";
 import isBetween from "dayjs/plugin/isBetween"; // Import isBetween plugin
 import { filterMultipleRanges } from "../utils/helper";
+import utc from "dayjs/plugin/utc";
+
+dayjs.extend(utc);
 
 dayjs.extend(isBetween);
 
@@ -17,11 +20,14 @@ export function useExcludeFilter() {
     setExcludedRanges,
   } = useDataContext();
 
-  const startDate = dayjs(chartData.date[0]).unix();
-  const endDate = dayjs(chartData.date[chartData.date.length - 1]).unix();
+  const startDate = dayjs(chartData.date[0]).utc().unix();
+  const endDate = dayjs(chartData.date[chartData.date.length - 1])
+    .utc()
+    .unix();
 
   const [range, setRange] = useState([startDate, endDate]);
 
+  console.log("excludedRanges", excludedRanges);
   const handleSliderChange = (values) => {
     setRange(values);
   };
@@ -37,8 +43,8 @@ export function useExcludeFilter() {
       const itemDate = dayjs(date);
       const isExcluded =
         // itemDate.isBetween(range[0], range[1], null, "[]")
-        itemDate >= dayjs.unix(range[0]).startOf("day") &&
-        itemDate <= dayjs.unix(range[1]).endOf("day");
+        itemDate >= dayjs.unix(range[0]).utc().startOf("day") &&
+        itemDate <= dayjs.unix(range[1]).utc().endOf("day");
 
       Object.keys(newChartData).map((key) => {
         if (key === "date") {
@@ -63,8 +69,8 @@ export function useExcludeFilter() {
       const itemDate = dayjs(date);
       const isExcluded =
         // itemDate.isBetween(dayjs.unix(range[0]), dayjs.unix(range[1]), null, "[]");
-        itemDate >= dayjs.unix(range[0]).startOf("day") &&
-        itemDate <= dayjs.unix(range[1]).endOf("day");
+        itemDate >= dayjs.unix(range[0]).utc().startOf("day") &&
+        itemDate <= dayjs.unix(range[1]).utc().endOf("day");
       Object.keys(newData).map((key) => {
         if (key === "date") {
           newData[key] = [...newData[key], data[key][index]];
@@ -81,14 +87,14 @@ export function useExcludeFilter() {
 
     setExcludedRanges((state) => [
       ...state,
-      range.map((val) => dayjs.unix(val).format("YYYY-MM-DD")),
+      range.map((val) => dayjs.unix(val).utc().format("YYYY-MM-DD")),
     ]);
   }
 
   const isExcluded = (itemDate) => {
     return excludedRanges.some(([start, end]) => {
-      const startDate = dayjs(start).unix();
-      const endDate = dayjs(end).unix();
+      const startDate = dayjs(start).utc().unix();
+      const endDate = dayjs(end).utc().unix();
       return itemDate >= startDate && itemDate <= endDate;
     });
   };

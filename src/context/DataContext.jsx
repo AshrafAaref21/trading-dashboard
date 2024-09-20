@@ -15,6 +15,8 @@ export function DataServiceProvider({ children }) {
   const [toggle, setToggle] = useState(false);
   const [traceVisibility, setTraceVisibility] = useState([false, false, true]);
 
+  console.log("excludedRanges", excludedRanges);
+
   return (
     <DataContext.Provider
       value={{

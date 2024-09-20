@@ -9,7 +9,8 @@ import DropdownWithTable from "./DropDownWithTable";
 import { useDataTables } from "../hooks/useDataTables";
 
 function Dashboard() {
-  const { setData } = useDataContext();
+  const { setInitialData, setData, setChartData, setExcludedRanges } =
+    useDataContext();
   const { selectedOption, handleSelectChange, dataframes } = useDataTables();
   return (
     <div className="dash-layout">
@@ -28,7 +29,12 @@ function Dashboard() {
       <Tooltip title="Back to form" placement="top">
         <Button
           className="dash-btn"
-          onClick={() => setData({})}
+          onClick={() => {
+            setInitialData({});
+            setData({});
+            setChartData({});
+            setExcludedRanges([]);
+          }}
           shape="circle"
           type="dashed"
           icon={<LeftCircleOutlined />}
