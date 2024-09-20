@@ -33,6 +33,10 @@ function ExcludeRange() {
     if (e.target.checked && excludedRanges.length > 0) HandleIsFilter();
   };
 
+  // const disabledDate = (current) => {
+  //   return current && (current.isBefore(minDate) || current.isAfter(maxDate));
+  // };
+
   return (
     <div style={{ marginTop: "15px", padding: "0 100px", width: "100%" }}>
       <>
@@ -73,9 +77,12 @@ function ExcludeRange() {
       {isFilterEnabled && (
         // <DatePicker.RangePicker
         //   // style={{ width: "60%" }}
-        //   minDate={"2024-01-01"}
-        //   maxDate={"2024-03-31"}
+        //   // minDate={"2024-01-01"}
+        //   // maxDate={"2024-03-31"}
+
         //   format="YYYY-MM-DD"
+        //   onChange={(value) => console.log(value)}
+        //   disabledDate={disabledDate}
         //   // disabled={isLoading}
         // />
         <Slider
