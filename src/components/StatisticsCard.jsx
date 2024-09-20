@@ -1,13 +1,30 @@
 import { DollarOutlined, ThunderboltOutlined } from "@ant-design/icons";
 import { Card, Col, Progress, Row, Statistic, Tooltip } from "antd";
+import { useDataContext } from "../context/DataContext";
 
 function StatisticsCard({ displayData }) {
+  const { traceVisibility } = useDataContext();
+  const transformer = {
+    0: "short",
+    1: "long",
+    2: "total",
+  };
+
+  const legend = traceVisibility
+    .map((value, index) => (value ? index : null))
+    .filter((index) => index !== null)[0];
+
   return (
     <div style={{ width: "500px" }}>
       <Row gutter={16} justify="center" style={{ textAlign: "center" }}>
         {/* Total Profit */}
         <Col span={8}>
-          <Tooltip title="Total Profit">
+          <Tooltip
+            title={`${
+              transformer[legend][0].toUpperCase() +
+              transformer[legend].substring(1)
+            } Profit`}
+          >
             <Card
               hoverable
               style={{
@@ -24,7 +41,7 @@ function StatisticsCard({ displayData }) {
             >
               <Statistic
                 title={<span style={{ display: "none" }}>Total Profit</span>} // Hide title
-                value={displayData.profit_total
+                value={displayData[`profit_${transformer[legend]}`]
                   .reduce((acc, cur) => acc + cur, 0)
                   .toFixed(2)}
                 prefix={
@@ -64,11 +81,14 @@ function StatisticsCard({ displayData }) {
                 value={
                   Math.round(
                     (100 *
-                      displayData.profit_total.reduce(
+                      displayData[`profit_${transformer[legend]}`].reduce(
                         (acc, cur) => acc + cur,
                         0
                       )) /
-                      displayData.mwh_total.reduce((acc, cur) => acc + cur, 0)
+                      displayData[`mwh_${transformer[legend]}`].reduce(
+                        (acc, cur) => acc + cur,
+                        0
+                      )
                   ) / 100
                 }
                 prefix={
@@ -116,18 +136,27 @@ function StatisticsCard({ displayData }) {
                   type="circle"
                   percent={Math.round(
                     (100 *
-                      displayData.win_count.reduce(
-                        (acc, cur) => acc + cur,
-                        0
-                      )) /
-                      (displayData.win_count.reduce(
-                        (acc, cur) => acc + cur,
-                        0
-                      ) +
-                        displayData.loss_count.reduce(
-                          (acc, cur) => acc + cur,
-                          0
-                        ))
+                      displayData[
+                        `${
+                          transformer[legend] === "total"
+                            ? "win_count"
+                            : "win_count_" + transformer[legend]
+                        }`
+                      ].reduce((acc, cur) => acc + cur, 0)) /
+                      (displayData[
+                        `${
+                          transformer[legend] === "total"
+                            ? "win_count"
+                            : "win_count_" + transformer[legend]
+                        }`
+                      ].reduce((acc, cur) => acc + cur, 0) +
+                        displayData[
+                          `${
+                            transformer[legend] === "total"
+                              ? "loss_count"
+                              : "loss_count_" + transformer[legend]
+                          }`
+                        ].reduce((acc, cur) => acc + cur, 0))
                   )}
                   strokeColor={{ "0%": "#108ee9", "100%": "#87d068" }}
                   format={(percent) => `${percent}%`}

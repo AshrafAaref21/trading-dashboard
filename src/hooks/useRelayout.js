@@ -2,11 +2,13 @@ import { useRef, useState } from "react";
 import { filterObjectByDateRange } from "../utils/helper";
 import dayjs from "dayjs";
 import { useDataContext } from "../context/DataContext";
+import toast from "react-hot-toast";
 
 export function useRelayout(baseLayout, baseData, setChartData) {
   const layoutRef = useRef(baseLayout);
-  const [traceVisibility, setTraceVisibility] = useState([false, false, true]);
 
+  const { data, setToggle, traceVisibility, setTraceVisibility } =
+    useDataContext();
   const handleLegendClick = (event) => {
     // const traceIndex = event.curveNumber; // Get the index of the clicked trace
     // const newVisibility = [...traceVisibility];
@@ -20,31 +22,50 @@ export function useRelayout(baseLayout, baseData, setChartData) {
       (_, index) => index === traceIndex
     );
 
-    // Update the state with the new visibility array
     setTraceVisibility(newVisibility);
 
     return false;
   };
 
   const [chartLayout, setChartLayout] = useState(null);
-  const { data, setToggle } = useDataContext();
 
   function onChangeLayout(layout) {
     if (
-      layout === chartLayout ||
-      layout["xaxis.range[0]"] === layout["xaxis.range[1]"]
+      layout["xaxis.range[0]"] === chartLayout?.["xaxis.range[0]"] ||
+      layout["xaxis.range[1]"] === chartLayout?.["xaxis.range[1]"]
     )
       return;
+    console.log(
+      "layout",
+      dayjs(layout["xaxis.range[0]"]).startOf("day").format("YYYY-MM-DD")
+    );
+    console.log(
+      "chartLayout",
+      dayjs(chartLayout?.["xaxis.range[0]"]).format("YYYY-MM-DD")
+    );
+    if (
+      dayjs(layout["xaxis.range[1]"]).startOf("day") >=
+      dayjs(data.date[data.date.length - 1])
+    ) {
+      toast.error("You've reached the end of the data range.", {
+        icon: "⚠️",
+        id: "toastId123",
+      });
+      if (
+        dayjs(layout["xaxis.range[0]"]) > dayjs(chartLayout?.["xaxis.range[0]"])
+      )
+        toast.remove("toastId123");
+    }
 
     setChartLayout({
-      x0: dayjs(layout["xaxis.range[0]"]).format("YYYY-MM-DD"),
-      x1: dayjs(layout["xaxis.range[1]"]).format("YYYY-MM-DD"),
+      x0: dayjs(layout["xaxis.range[0]"]).startOf("day"),
+      x1: dayjs(layout["xaxis.range[1]"]).startOf("day"),
     });
 
     const filteredData = filterObjectByDateRange(
       baseData,
-      dayjs(layout["xaxis.range[0]"]).format("YYYY-MM-DD"),
-      dayjs(layout["xaxis.range[1]"]).format("YYYY-MM-DD")
+      dayjs(layout["xaxis.range[0]"]).startOf("day"),
+      dayjs(layout["xaxis.range[1]"]).startOf("day")
     );
     setChartData(filteredData);
   }
@@ -53,7 +74,6 @@ export function useRelayout(baseLayout, baseData, setChartData) {
     setChartData(data);
     setToggle(false);
     setChartLayout(null);
-    setTraceVisibility([true, true, true]);
   }
 
   function handleRelayout() {

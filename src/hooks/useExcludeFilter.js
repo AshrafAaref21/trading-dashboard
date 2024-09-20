@@ -37,8 +37,8 @@ export function useExcludeFilter() {
       const itemDate = dayjs(date);
       const isExcluded =
         // itemDate.isBetween(range[0], range[1], null, "[]")
-        itemDate >= dayjs.unix(range[0]).subtract(1, "days") &&
-        itemDate <= dayjs.unix(range[1]);
+        itemDate >= dayjs.unix(range[0]).startOf("day") &&
+        itemDate <= dayjs.unix(range[1]).endOf("day");
 
       Object.keys(newChartData).map((key) => {
         if (key === "date") {
@@ -54,7 +54,6 @@ export function useExcludeFilter() {
 
     setChartData(newChartData);
 
-    console.log("rangerange0", dayjs.unix(range[0]));
     const newData = {};
     Object.keys(data).map((key) => {
       newData[key] = [];
@@ -64,8 +63,8 @@ export function useExcludeFilter() {
       const itemDate = dayjs(date);
       const isExcluded =
         // itemDate.isBetween(dayjs.unix(range[0]), dayjs.unix(range[1]), null, "[]");
-        itemDate >= dayjs.unix(range[0]).subtract(1, "days") &&
-        itemDate <= dayjs.unix(range[1]);
+        itemDate >= dayjs.unix(range[0]).startOf("day") &&
+        itemDate <= dayjs.unix(range[1]).endOf("day");
       Object.keys(newData).map((key) => {
         if (key === "date") {
           newData[key] = [...newData[key], data[key][index]];

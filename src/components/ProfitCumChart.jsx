@@ -103,6 +103,7 @@ function ProfitCumChart() {
           </Button>
         </Tooltip>
       </div>
+
       <Plot
         data={transformedData}
         layout={{

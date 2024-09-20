@@ -4,19 +4,44 @@ import { mergeRanges } from "../utils/helper";
 import dayjs from "dayjs";
 
 function WinsLossesChart() {
-  const { data, excludedRanges, isFilterEnabled } = useDataContext();
+  const { data, excludedRanges, isFilterEnabled, traceVisibility } =
+    useDataContext();
+  const transformer = {
+    0: "short",
+    1: "long",
+    2: "total",
+  };
+
+  const legend = traceVisibility
+    .map((value, index) => (value ? index : null))
+    .filter((index) => index !== null)[0];
+
   const transformedData = [
     {
       x: data.date,
-      y: data.mwh_total,
-      name: "# Economics",
-      mode: "lines",
+      y: data[
+        `${
+          transformer[legend] === "total"
+            ? "win_count"
+            : "win_count_" + transformer[legend]
+        }`
+      ],
+      name:
+        transformer[legend] === "total"
+          ? "# Total Wins"
+          : `# ${
+              transformer[legend][0].toUpperCase() +
+              transformer[legend].substring(1)
+            } Wins`,
+      mode: "lines+markers",
     },
     {
       x: data.date,
-      y: data.win_count,
-      name: "# Wins",
-      mode: "lines",
+      y: data[`mwh_${transformer[legend]}`],
+      name: `# ${
+        transformer[legend][0].toUpperCase() + transformer[legend].substring(1)
+      } Economics`,
+      mode: "lines+markers",
     },
   ];
 

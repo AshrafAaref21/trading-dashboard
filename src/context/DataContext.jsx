@@ -13,6 +13,7 @@ export function DataServiceProvider({ children }) {
   const [isFilterEnabled, setIsFilterEnabled] = useState(false);
   const [excludedRanges, setExcludedRanges] = useState([]);
   const [toggle, setToggle] = useState(false);
+  const [traceVisibility, setTraceVisibility] = useState([false, false, true]);
 
   return (
     <DataContext.Provider
@@ -34,6 +35,8 @@ export function DataServiceProvider({ children }) {
         setExcludedRanges,
         toggle,
         setToggle,
+        traceVisibility,
+        setTraceVisibility,
       }}
     >
       {children}

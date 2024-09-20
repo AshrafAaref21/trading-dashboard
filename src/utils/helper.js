@@ -62,11 +62,7 @@ export function mergeRanges(ranges) {
     new Date(end),
   ]);
 
-  console.log("parsedRanges", parsedRanges);
-
   const sortedRanges = [...parsedRanges].sort((a, b) => a[0] - b[0]);
-
-  console.log("sortedRanges", sortedRanges);
 
   return sortedRanges.reduce((merged, [currentStart, currentEnd]) => {
     if (merged.length === 0 || currentStart > merged[merged.length - 1][1]) {
@@ -82,7 +78,6 @@ export function mergeRanges(ranges) {
 }
 
 export function filterMultipleRanges(excludedRanges, chartData) {
-  console.log("chartDatachartData", chartData);
   const isDateExcluded = (date) => {
     const itemDate = dayjs(date);
     return excludedRanges.some(([start, end]) => {
