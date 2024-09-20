@@ -2,6 +2,7 @@ import Plot from "react-plotly.js";
 import { useDataContext } from "../context/DataContext";
 import { mergeRanges } from "../utils/helper";
 import dayjs from "dayjs";
+import CustomLegend from "./CustomLegend";
 
 function WinsLossesChart() {
   const { data, excludedRanges, isFilterEnabled, traceVisibility } =
@@ -46,7 +47,8 @@ function WinsLossesChart() {
   ];
 
   return (
-    <>
+    <div style={{ position: "relative" }}>
+      <CustomLegend />
       <Plot
         data={transformedData}
         layout={{
@@ -97,7 +99,7 @@ function WinsLossesChart() {
           } // Keep the chart responsive
         }
       />
-    </>
+    </div>
   );
 }
 
