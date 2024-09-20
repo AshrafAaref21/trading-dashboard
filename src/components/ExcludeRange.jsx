@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
 import { useDataContext } from "../context/DataContext";
-import { Button, Checkbox, Slider } from "antd";
+import { Button, Checkbox, DatePicker, Slider } from "antd";
 import { useExcludeFilter } from "../hooks/useExcludeFilter";
 
 function ExcludeRange() {
@@ -71,6 +71,13 @@ function ExcludeRange() {
       </>
 
       {isFilterEnabled && (
+        // <DatePicker.RangePicker
+        //   // style={{ width: "60%" }}
+        //   minDate={"2024-01-01"}
+        //   maxDate={"2024-03-31"}
+        //   format="YYYY-MM-DD"
+        //   // disabled={isLoading}
+        // />
         <Slider
           range
           value={range}

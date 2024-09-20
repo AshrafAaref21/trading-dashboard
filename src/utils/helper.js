@@ -79,10 +79,10 @@ export function mergeRanges(ranges) {
 
 export function filterMultipleRanges(excludedRanges, chartData) {
   const isDateExcluded = (date) => {
-    const itemDate = dayjs(date).utc();
+    const itemDate = dayjs(date);
     return excludedRanges.some(([start, end]) => {
-      const startDate = dayjs(start).utc();
-      const endDate = dayjs(end).utc();
+      const startDate = dayjs(start);
+      const endDate = dayjs(end);
       return itemDate.isBetween(startDate, endDate, null, "[]");
     });
   };
@@ -94,7 +94,7 @@ export function filterMultipleRanges(excludedRanges, chartData) {
   });
 
   chartData.date.map((date, index) => {
-    const itemDate = dayjs(date).utc();
+    const itemDate = dayjs(date);
     const isExcluded = isDateExcluded(itemDate);
 
     Object.keys(newChartData).map((key) => {
