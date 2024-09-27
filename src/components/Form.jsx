@@ -69,12 +69,12 @@ function Form() {
       </AndForm.Item>
 
       <AndForm.Item
-        label="Model Name"
+        label="Policies List"
         name="policies"
         rules={[
           {
             required: true,
-            message: "Please input the model name!",
+            message: "Please input the list of policies!",
           },
         ]}
         style={{ marginTop: "2rem" }}
