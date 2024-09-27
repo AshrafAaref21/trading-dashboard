@@ -70,7 +70,7 @@ function Form() {
 
       <AndForm.Item
         label="Model Name"
-        name="model"
+        name="policies"
         rules={[
           {
             required: true,

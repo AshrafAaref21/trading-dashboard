@@ -26,6 +26,8 @@ function ProfitCumChart() {
 
   const toggleData = toggle ? chartData : data;
 
+  console.log("excludedRanges", excludedRanges);
+
   const transformedData = [
     {
       x: toggleData.date, // The x-axis values
@@ -150,14 +152,7 @@ function ProfitCumChart() {
         onLegendClick={handleLegendClick}
         config={
           {
-            modeBarButtons: [
-              [
-                "zoom2d", // Zoom button
-                "pan2d", // Pan button
-                "zoomIn2d", // Zoom in button
-                "zoomOut2d",
-              ],
-            ],
+            modeBarButtons: [["zoom2d", "pan2d", "zoomIn2d", "zoomOut2d"]],
             displaylogo: false, // Remove the Plotly logo
             responsive: true,
           } // Keep the chart responsive

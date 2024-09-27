@@ -40,7 +40,14 @@ export default async function postData(
       throw Error("There's no data for this short time period.");
     }
 
-    return transformData(cols);
+    const newData = transformData(cols);
+    newData["loss_count"] = newData.loss_count_long.map(
+      (longValue, index) => longValue + newData.loss_count_short[index]
+    );
+    newData["win_count"] = newData.win_count_long.map(
+      (longValue, index) => longValue + newData.win_count_short[index]
+    );
+    return newData;
   } catch (error) {
     setIsloading(false);
     if (error.status == 500) {
