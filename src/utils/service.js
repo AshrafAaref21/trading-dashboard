@@ -22,7 +22,7 @@ export default async function postData(
 ) {
   try {
     const response = await axios.post(
-      "https://quantum-zero-bayfm.ondigitalocean.app/report",
+      "https://quantum-zero-3jgsl.ondigitalocean.app/report",
       {
         ...data,
         from_date: dayjs(data.dateRange[0]).format("YYYY-MM-DD"),
